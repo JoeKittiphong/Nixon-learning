@@ -2,363 +2,223 @@
 import { SentenceQuestion } from './types.ts';
 
 export const SENTENCES_N5: SentenceQuestion[] = [
-  // --- กลุ่มพื้นฐาน (Particles & Identity) ---
-  {
-    sentenceWithBlank: "私[わたし]は _____ です。",
-    correctAnswer: "学生[がくせい]",
-    thaiTranslation: "ฉันเป็นนักเรียน",
-    distractors: ["先生[せんせい]", "日本人[にほんじん]", "会社員[かいしゃいん]"]
-  },
-  {
-    sentenceWithBlank: "これ _____ あなたの 辞書[じしょ]ですか。",
-    correctAnswer: "は",
-    thaiTranslation: "นี่คือพจนานุกรมของคุณใช่ไหมครับ/คะ",
-    distractors: ["が", "を", "に"]
-  },
-  {
-    sentenceWithBlank: "田中[たなか]さんも _____ です。",
-    correctAnswer: "先生[せんせい]",
-    thaiTranslation: "คุณทานากะก็เป็นอาจารย์เช่นกัน",
-    distractors: ["本[ほん]", "車[くるま]", "机[つくえ]"]
-  },
-  {
-    sentenceWithBlank: "あそこ _____ 何[なに]が ありますか。",
-    correctAnswer: "に",
-    thaiTranslation: "ตรงโน้นมีอะไรอยู่หรือครับ/คะ",
-    distractors: ["を", "は", "で"]
-  },
+  // --- 1-20: Particles (Basic) ---
+  { sentenceWithBlank: "私[わたし] _____ 学生[がくせい]です。", correctAnswer: "は", thaiTranslation: "ฉันเป็นนักเรียน", distractors: ["が", "を", "に"] },
+  { sentenceWithBlank: "これ _____ 本[ほん]です。", correctAnswer: "は", thaiTranslation: "นี่คือหนังสือ", distractors: ["の", "を", "も"] },
+  { sentenceWithBlank: "田中[たなか]さん _____ 先生[せんせい]です。", correctAnswer: "も", thaiTranslation: "คุณทานากะก็เป็นอาจารย์เหมือนกัน", distractors: ["は", "が", "を"] },
+  { sentenceWithBlank: "これ _____ 何[なに]ですか。", correctAnswer: "は", thaiTranslation: "นี่คืออะไร", distractors: ["を", "が", "に"] },
+  { sentenceWithBlank: "私[わたし] _____ 名前[なまえ]は ケンです。", correctAnswer: "の", thaiTranslation: "ชื่อของฉันคือเคน", distractors: ["は", "を", "に"] },
+  { sentenceWithBlank: "山田[やまだ]さん _____ どこですか。", correctAnswer: "は", thaiTranslation: "คุณยามะดะอยู่ที่ไหน", distractors: ["が", "を", "に"] },
+  { sentenceWithBlank: "それ _____ 私[わたし]の 傘[かさ]です。", correctAnswer: "は", thaiTranslation: "นั่นคือร่มของฉัน", distractors: ["を", "が", "に"] },
+  { sentenceWithBlank: "あなた _____ 国[くに]は どこですか。", correctAnswer: "の", thaiTranslation: "ประเทศของคุณคือที่ไหน", distractors: ["は", "を", "が"] },
+  { sentenceWithBlank: "あの 人[ひと] _____ 誰[だれ]ですか。", correctAnswer: "は", thaiTranslation: "คนนั้นคือใคร", distractors: ["が", "を", "に"] },
+  { sentenceWithBlank: "本[ほん] _____ ノートを 買[か]いました。", correctAnswer: "と", thaiTranslation: "ซื้อหนังสือและสมุดบันทึก", distractors: ["を", "が", "に"] },
+  { sentenceWithBlank: "コーヒー _____ 紅茶[こうちゃ]を 飲[の]みます。", correctAnswer: "か", thaiTranslation: "จะดื่มกาแฟหรือชานะ", distractors: ["と", "を", "が"] },
+  { sentenceWithBlank: "お父[とう]さん _____ お母[かあ]さんは どこですか。", correctAnswer: "と", thaiTranslation: "คุณพ่อและคุณแม่อยู่ที่ไหน", distractors: ["を", "に", "は"] },
+  { sentenceWithBlank: "机[つくえ] _____ 上[うえ]に 本[ほん]が あります。", correctAnswer: "の", thaiTranslation: "มีหนังสืออยู่บนโต๊ะ", distractors: ["は", "を", "が"] },
+  { sentenceWithBlank: "箱[はこ] _____ 中[なか]に 何[なに]が ありますか。", correctAnswer: "の", thaiTranslation: "ในกล่องมีอะไรอยู่หรือ", distractors: ["は", "を", "が"] },
+  { sentenceWithBlank: "私[わたし] _____ 部屋[へや]は 二階[にかい]です。", correctAnswer: "の", thaiTranslation: "ห้องของฉันอยู่ชั้นสอง", distractors: ["は", "が", "に"] },
+  { sentenceWithBlank: "日本語[にほんご] _____ 勉強[べんきょう]は 楽[たの]しいです。", correctAnswer: "の", thaiTranslation: "การเรียนภาษาญี่ปุ่นนั้นสนุก", distractors: ["を", "が", "に"] },
+  { sentenceWithBlank: "明日[あした] _____ 天気[てんき]は 何[なん]ですか。", correctAnswer: "の", thaiTranslation: "สภาพอากาศของวันพรุ่งนี้คืออะไร", distractors: ["は", "を", "に"] },
+  { sentenceWithBlank: "これ _____ あなたの 鍵[かぎ]ですか。", correctAnswer: "は", thaiTranslation: "นี่คือกุญแจของคุณใช่ไหม", distractors: ["が", "を", "に"] },
+  { sentenceWithBlank: "ここ _____ 教室[きょうしつ]です。", correctAnswer: "は", thaiTranslation: "ที่นี่คือห้องเรียน", distractors: ["が", "を", "に"] },
+  { sentenceWithBlank: "あの ビル _____ 病院[びょういん]です。", correctAnswer: "は", thaiTranslation: "ตึกนั้นคือโรงพยาบาล", distractors: ["が", "を", "に"] },
 
-  // --- กลุ่มคำกริยาและกรรม (Verbs & Objects) ---
-  {
-    sentenceWithBlank: "毎日[まいにち] 水[みず] _____ 飲[の]みます。",
-    correctAnswer: "を",
-    thaiTranslation: "ดื่มน้ำทุกวัน",
-    distractors: ["が", "に", "へ"]
-  },
-  {
-    sentenceWithBlank: "一緒[いっしょ]に ご飯[はん]を _____。",
-    correctAnswer: "食[た]べましょう",
-    thaiTranslation: "ไปกินข้าวด้วยกันเถอะ",
-    distractors: ["食[た]べました", "食[た]べません", "食[た]べます"]
-  },
-  {
-    sentenceWithBlank: "昨日[きのう]、本[ほん]を _____。",
-    correctAnswer: "買[か]いました",
-    thaiTranslation: "เมื่อวานซื้อหนังสือมาแล้ว",
-    distractors: ["買[か]います", "買[か]いません", "買[か]いましょう"]
-  },
-  {
-    sentenceWithBlank: "日本語[にほんご]を _____ しています。",
-    correctAnswer: "勉強[べんきょう]",
-    thaiTranslation: "กำลังเรียนภาษาญี่ปุ่นอยู่",
-    distractors: ["練習[れんしゅう]", "掃除[そうじ]", "散歩[さんぽ]"]
-  },
-  {
-    sentenceWithBlank: "パン _____ 玉子[たまご]を 食べました。",
-    correctAnswer: "と",
-    thaiTranslation: "กินขนมปังกับไข่",
-    distractors: ["を", "が", "に"]
-  },
+  // --- 21-40: Places, Direction & Motion (に, へ, で) ---
+  { sentenceWithBlank: "学校[がっこう] _____ 行[い]きます。", correctAnswer: "へ", thaiTranslation: "ไปโรงเรียน", distractors: ["を", "が", "で"] },
+  { sentenceWithBlank: "家[うち] _____ 帰[かえ]ります。", correctAnswer: "へ", thaiTranslation: "กลับบ้าน", distractors: ["を", "が", "で"] },
+  { sentenceWithBlank: "日本[にほん] _____ 来[き]ました。", correctAnswer: "へ", thaiTranslation: "มาที่ญี่ปุ่น", distractors: ["を", "に", "で"] },
+  { sentenceWithBlank: "どこ _____ も 行[い]きません。", correctAnswer: "へ", thaiTranslation: "ไม่ไปที่ไหนเลย", distractors: ["を", "が", "に"] },
+  { sentenceWithBlank: "教室[きょうしつ] _____ 勉強[べんきょう]します。", correctAnswer: "で", thaiTranslation: "เรียนที่ห้องเรียน", distractors: ["に", "へ", "を"] },
+  { sentenceWithBlank: "レストラン _____ ご飯[はん]を 食[た]べます。", correctAnswer: "で", thaiTranslation: "กินข้าวที่ร้านอาหาร", distractors: ["に", "へ", "を"] },
+  { sentenceWithBlank: "駅[えき] _____ 友達[ともだち]に 会[あ]います。", correctAnswer: "で", thaiTranslation: "เจอเพื่อนที่สถานี", distractors: ["に", "へ", "を"] },
+  { sentenceWithBlank: "公園[こうえん] _____ 散歩[さんぽ]します。", correctAnswer: "を", thaiTranslation: "เดินเล่นที่สวนสาธารณะ", distractors: ["で", "に", "へ"] },
+  { sentenceWithBlank: "海[うみ] _____ 泳[およ]ぎます。", correctAnswer: "で", thaiTranslation: "ว่ายน้ำที่ทะเล", distractors: ["に", "へ", "を"] },
+  { sentenceWithBlank: "デパート _____ 買[か]い物[もの]を しました。", correctAnswer: "で", thaiTranslation: "ซื้อของที่ห้างสรรพสินค้า", distractors: ["に", "へ", "を"] },
+  { sentenceWithBlank: "椅子[いす] _____ 座[すわ]ってください。", correctAnswer: "に", thaiTranslation: "กรุณานั่งลงบนเก้าอี้", distractors: ["を", "で", "へ"] },
+  { sentenceWithBlank: "ノート _____ 名前[なまえ]を 書[か]きます。", correctAnswer: "に", thaiTranslation: "เขียนชื่อลงในสมุด", distractors: ["を", "で", "へ"] },
+  { sentenceWithBlank: "タクシー _____ 乗[の]りました。", correctAnswer: "に", thaiTranslation: "ขึ้นรถแท็กซี่", distractors: ["を", "で", "へ"] },
+  { sentenceWithBlank: "日本[にほん] _____ 住[す]んでいます。", correctAnswer: "に", thaiTranslation: "อาศัยอยู่ที่ญี่ปุ่น", distractors: ["で", "を", "へ"] },
+  { sentenceWithBlank: "銀行[ぎんこう] _____ 行[い]きたいです。", correctAnswer: "へ", thaiTranslation: "อยากไปธนาคาร", distractors: ["を", "が", "で"] },
+  { sentenceWithBlank: "スーパー _____ パンを 買[か]いました。", correctAnswer: "で", thaiTranslation: "ซื้อขนมปังที่ซูเปอร์มาร์เก็ต", distractors: ["に", "へ", "を"] },
+  { sentenceWithBlank: "図書館[としょかん] _____ 本[ほん]を 読[よ]みます。", correctAnswer: "で", thaiTranslation: "อ่านหนังสือที่ห้องสมุด", distractors: ["に", "へ", "を"] },
+  { sentenceWithBlank: "庭[にわ] _____ 花[はな]が あります。", correctAnswer: "に", thaiTranslation: "มีดอกไม้อยู่ในสวน", distractors: ["で", "を", "へ"] },
+  { sentenceWithBlank: "箱[はこ] _____ 手紙[てがみ]を 入[い]れました。", correctAnswer: "に", thaiTranslation: "ใส่จดหมายลงในกล่อง", distractors: ["を", "で", "へ"] },
+  { sentenceWithBlank: "国[くに] _____ 帰[かえ]る 時[とき]、お土産[みやげ]を 買[か]います。", correctAnswer: "へ", thaiTranslation: "ตอนกลับประเทศจะซื้อของฝาก", distractors: ["を", "に", "で"] },
 
-  // --- กลุ่มสถานที่และการเคลื่อนที่ (Places & Motion) ---
-  {
-    sentenceWithBlank: "明日[あした]、京都[きょうと] _____ 行[い]きます。",
-    correctAnswer: "へ",
-    thaiTranslation: "พรุ่งนี้จะไปเกียวโต",
-    distractors: ["を", "が", "と"]
-  },
-  {
-    sentenceWithBlank: "昨日[きのう] どこへも _____。",
-    correctAnswer: "行[い]きませんでした",
-    thaiTranslation: "เมื่อวานไม่ได้ไปไหนเลย",
-    distractors: ["行[い]きました", "行[い]きます", "行[い]きません"]
-  },
-  {
-    sentenceWithBlank: "家[うち] _____ 帰りましょう。",
-    correctAnswer: "へ",
-    thaiTranslation: "กลับบ้านกันเถอะ",
-    distractors: ["を", "が", "も"]
-  },
-  {
-    sentenceWithBlank: "デパート _____ 買い物[かいもの]を しました。",
-    correctAnswer: "で",
-    thaiTranslation: "ซื้อของที่ห้างสรรพสินค้า",
-    distractors: ["に", "へ", "を"]
-  },
+  // --- 41-60: Time & Dates (に, から, まで) ---
+  { sentenceWithBlank: "朝[あさ] 六時[ろくじ] _____ 起[お]きます。", correctAnswer: "に", thaiTranslation: "ตื่นนอนตอน 6 โมงเช้า", distractors: ["を", "へ", "が"] },
+  { sentenceWithBlank: "夜[よる] 十一時[じゅういちじ] _____ 寝[ね]ます。", correctAnswer: "に", thaiTranslation: "นอนตอน 5 ทุ่ม", distractors: ["を", "へ", "が"] },
+  { sentenceWithBlank: "仕事[しごと]は 九時[くじ] _____ です。", correctAnswer: "から", thaiTranslation: "งานเริ่มตั้งแต่ 9 โมง", distractors: ["まで", "に", "へ"] },
+  { sentenceWithBlank: "五時[ごじ] _____ 働[はたら]きます。", correctAnswer: "まで", thaiTranslation: "ทำงานจนถึง 5 โมง", distractors: ["から", "に", "へ"] },
+  { sentenceWithBlank: "月曜日[げつようび] _____ 金曜日[きんようび] まで 学校[がっこう]が あります。", correctAnswer: "から", thaiTranslation: "มีเรียนตั้งแต่วันจันทร์ถึงวันศุกร์", distractors: ["まで", "に", "へ"] },
+  { sentenceWithBlank: "休み[やすみ]は 何時[なんじ] _____ ですか。", correctAnswer: "まで", thaiTranslation: "พักจนถึงกี่โมง", distractors: ["から", "に", "へ"] },
+  { sentenceWithBlank: "三時[さんじ] _____ 会議[かいぎ]が あります。", correctAnswer: "に", thaiTranslation: "มีการประชุมตอน 3 โมง", distractors: ["を", "へ", "が"] },
+  { sentenceWithBlank: "昨日[きのう]は 九時[くじ] _____ 勉強[べんきょう]しました。", correctAnswer: "まで", thaiTranslation: "เมื่อวานเรียนจนถึง 3 โมง", distractors: ["から", "に", "へ"] },
+  { sentenceWithBlank: "テストは 何曜日[なんようび] _____ ですか。", correctAnswer: "に", thaiTranslation: "สอบวันไหน (เจาะจงวัน)", distractors: ["を", "へ", "から"] },
+  { sentenceWithBlank: "誕生日[たんじょうび]は 十月[じゅうがつ] _____ です。", correctAnswer: "は", thaiTranslation: "วันเกิดคือเดือนตุลาคม", distractors: ["に", "を", "が"] },
+  { sentenceWithBlank: "今[いま] _____ 時[じ] ですか。", correctAnswer: "何[なん]", thaiTranslation: "ตอนนี้กี่โมงแล้ว", distractors: ["どこ", "だれ", "いつ"] },
+  { sentenceWithBlank: "映画[えいが]は 何時[なんじ] _____ 始[はじ]まりますか。", correctAnswer: "に", thaiTranslation: "หนังเริ่มกี่โมง", distractors: ["を", "へ", "が"] },
+  { sentenceWithBlank: "一月[いちがつ] 一日[ついたち] _____ 休みです。", correctAnswer: "は", thaiTranslation: "วันที่ 1 มกราคมเป็นวันหยุด", distractors: ["に", "を", "が"] },
+  { sentenceWithBlank: "毎朝[まいあさ] 何時[なんじ] _____ 起[お]きますか。", correctAnswer: "に", thaiTranslation: "ทุกเช้าตื่นนอนกี่โมง", distractors: ["を", "へ", "が"] },
+  { sentenceWithBlank: "勉強[べんきょう]は 何時[なんじ] _____ 終わりますか。", correctAnswer: "に", thaiTranslation: "เรียนเสร็จกี่โมง", distractors: ["を", "へ", "が"] },
+  { sentenceWithBlank: "昨日[きのう] 九時[くじ] _____ 十時[じゅうじ] まで テレビを 見[み]ました。", correctAnswer: "から", thaiTranslation: "เมื่อวานดูทีวีตั้งแต่ 3 โมงถึง 4 โมง", distractors: ["まで", "に", "へ"] },
+  { sentenceWithBlank: "パーティーは 何時[なんじ] _____ ですか。", correctAnswer: "から", thaiTranslation: "ปาร์ตี้เริ่มตั้งแต่กี่โมง", distractors: ["まで", "に", "へ"] },
+  { sentenceWithBlank: "昼休み[ひるやすみ]は 十二時[じゅうにじ] _____ 一時[いちじ] までです。", correctAnswer: "から", thaiTranslation: "พักเที่ยงตั้งแต่เที่ยงถึงบ่ายโมง", distractors: ["まで", "に", "へ"] },
+  { sentenceWithBlank: "明日[あした] 十時[じゅうじ] _____ 会[あ]いましょう。", correctAnswer: "に", thaiTranslation: "พรุ่งนี้เจอกันตอน 10 โมงนะ", distractors: ["を", "へ", "が"] },
+  { sentenceWithBlank: "宿題[しゅくだい]は 月曜日[げつようび] _____ 出[だ]してください。", correctAnswer: "まで", thaiTranslation: "กรุณาส่งการบ้านภายในวันจันทร์", distractors: ["から", "に", "へ"] },
 
-  // --- กลุ่มเวลา (Time & Frequency) ---
-  {
-    sentenceWithBlank: "毎朝[まいあさ] 六時[ろくじ] _____ 起[お]きます。",
-    correctAnswer: "に",
-    thaiTranslation: "ตื่นนอนตอน 6 โมงทุกเช้า",
-    distractors: ["を", "は", "が"]
-  },
-  {
-    sentenceWithBlank: "会議[かいぎ]は 何時[なんじ] _____ 終わりますか。",
-    correctAnswer: "まで",
-    thaiTranslation: "การประชุมเลิกกี่โมงครับ/คะ",
-    distractors: ["から", "に", "へ"]
-  },
-  {
-    sentenceWithBlank: "十時[じゅうじ]から 十二時[じゅうにじ] _____ 勉強します。",
-    correctAnswer: "まで",
-    thaiTranslation: "เรียนตั้งแต่ 10 โมงถึงเที่ยง",
-    distractors: ["ごろ", "に", "から"]
-  },
-  {
-    sentenceWithBlank: "一月[いちがつ] 一日[ついたち] _____ 休みです。",
-    correctAnswer: "は",
-    thaiTranslation: "วันที่ 1 มกราคมเป็นวันหยุด",
-    distractors: ["を", "が", "に"]
-  },
+  // --- 61-80: Objects & Actions (を) ---
+  { sentenceWithBlank: "水[みず] _____ 飲[の]みます。", correctAnswer: "を", thaiTranslation: "ดื่มน้ำ", distractors: ["が", "に", "は"] },
+  { sentenceWithBlank: "ご飯[はん] _____ 食[た]べます。", correctAnswer: "を", thaiTranslation: "กินข้าว", distractors: ["が", "に", "は"] },
+  { sentenceWithBlank: "本[ほん] _____ 読[よ]みます。", correctAnswer: "を", thaiTranslation: "อ่านหนังสือ", distractors: ["が", "に", "は"] },
+  { sentenceWithBlank: "手紙[てがみ] _____ 書[か]きます。", correctAnswer: "を", thaiTranslation: "เขียนจดหมาย", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "写真[しゃしん] _____ 撮[と]ります。", correctAnswer: "を", thaiTranslation: "ถ่ายรูป", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "日本語[にほんご] _____ 話[はな]します。", correctAnswer: "を", thaiTranslation: "พูดภาษาญี่ปุ่น", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "音楽[おんがく] _____ 聞[き]きます。", correctAnswer: "を", thaiTranslation: "ฟังเพลง", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "テレビ _____ 見[み]ます。", correctAnswer: "を", thaiTranslation: "ดูทีวี", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "靴[くつ] _____ 買[か]いました。", correctAnswer: "を", thaiTranslation: "ซื้อรองเท้า", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "窓[まど] _____ 開[あ]けてください。", correctAnswer: "を", thaiTranslation: "กรุณาเปิดหน้าต่าง", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "ドア _____ 閉[し]めてください。", correctAnswer: "を", thaiTranslation: "กรุณาปิดประตู", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "宿題[しゅくだい] _____ しましたか。", correctAnswer: "を", thaiTranslation: "ทำการบ้านหรือยัง", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "名前[なまえ] _____ 教[おし]えてください。", correctAnswer: "を", thaiTranslation: "กรุณาบอกชื่อ", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "お茶[ちゃ] _____ 飲[の]みましょう。", correctAnswer: "を", thaiTranslation: "ดื่มชากันเถอะ", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "リンゴ _____ 買[か]いたいです。", correctAnswer: "を", thaiTranslation: "อยากซื้อแอปเปิ้ล", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "荷物[にもつ] _____ 送[おく]ります。", correctAnswer: "を", thaiTranslation: "ส่งของ", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "電気[でんき] _____ 消[け]してください。", correctAnswer: "を", thaiTranslation: "กรุณาปิดไฟ", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "お菓子[かし] _____ 作[つく]りました。", correctAnswer: "を", thaiTranslation: "ทำขนมแล้ว", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "タバコ _____ 吸[す]わないでください。", correctAnswer: "を", thaiTranslation: "กรุณาอย่าสูบบุหรี่", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "部屋[へや] _____ 掃除[そうじ]しました。", correctAnswer: "を", thaiTranslation: "ทำความสะอาดห้องแล้ว", distractors: ["ที่", "に", "は"] },
 
-  // --- กลุ่มคุณศัพท์ (Adjectives) ---
-  {
-    sentenceWithBlank: "この 料理[りょうり]は とても _____ ですね。",
-    correctAnswer: "おいしい",
-    thaiTranslation: "อาหารจานนี้อร่อยมากเลยเนอะ",
-    distractors: ["寒い[さむい]", "高い[たかい]", "広い[ひろい]"]
-  },
-  {
-    sentenceWithBlank: "今日[きょう]は 天気[てんき]が _____ です。",
-    correctAnswer: "いい",
-    thaiTranslation: "วันนี้อากาศดี",
-    distractors: ["悪い[わるい]", "赤い[あかい]", "暑い[あつい]"]
-  },
-  {
-    sentenceWithBlank: "あの 図書館[としょかん]は _____ です。",
-    correctAnswer: "静か[しずか]",
-    thaiTranslation: "ห้องสมุดแห่งนั้นเงียบสงบ",
-    distractors: ["有名[ゆうめい]", "暇[ひมา]", "元気[げんき]"]
-  },
-  {
-    sentenceWithBlank: "去年[きょねん]の 冬[ふゆ]は あまり _____。",
-    correctAnswer: "寒[さむ]くなかったです",
-    thaiTranslation: "ฤดูหนาวปีที่แล้วไม่ค่อยหนาว",
-    distractors: ["寒[さむ]かったです", "暑[あつ]かったです", "寒[さむ]いです"]
-  },
+  // --- 81-100: Adjectives (i & na) ---
+  { sentenceWithBlank: "今日[きょう]は _____ ですね。", correctAnswer: "暑[あつ]い", thaiTranslation: "วันนี้ร้อนจังเลยเนอะ", distractors: ["寒[さむ]い", "白[しろ]い", "丸[まる]い"] },
+  { sentenceWithBlank: "この 花[はな]は _____ です。", correctAnswer: "綺麗[きれい]", thaiTranslation: "ดอกไม้นี้สวย", distractors: ["静か[しずか]", "有名[ゆうめい]", "暑い[あつい]"] },
+  { sentenceWithBlank: "日本語[にほんご]は _____ ですか。", correctAnswer: "難[むずか]しい", thaiTranslation: "ภาษาญี่ปุ่นยากไหม", distractors: ["甘[あま]い", "赤[あか]い", "高[たか]い"] },
+  { sentenceWithBlank: "あの 人[ひと]は _____ です。", correctAnswer: "親切[しんせつ]", thaiTranslation: "คนนั้นใจดี", distractors: ["暇[ひま]", "暗[くら]い", "辛[から]い"] },
+  { sentenceWithBlank: "この 料理[りょうり]は _____ です。", correctAnswer: "おいしい", thaiTranslation: "อาหารจานนี้อร่อย", distractors: ["狭[せま]い", "寒[さむ]い", "青[あお]い"] },
+  { sentenceWithBlank: "私[わたし]の 部屋[へや]は _____ です。", correctAnswer: "狭[せま]い", thaiTranslation: "ห้องของฉันแคบ", distractors: ["広[ひろ]い", "明[あか]るい", "静[しず]か"] },
+  { sentenceWithBlank: "その カバンは _____ ですか。", correctAnswer: "高[たか]い", thaiTranslation: "กระเป๋าใบนั้นแพงไหม", distractors: ["甘[あま]い", "寒[さむ]い", "丸[まる]い"] },
+  { sentenceWithBlank: "冬[ふゆ]は とても _____ です。", correctAnswer: "寒[さむ]い", thaiTranslation: "ฤดูหนาวหนาวมาก", distractors: ["暑[あつ]い", "広[ひろ]い", "綺麗[きれい]"] },
+  { sentenceWithBlank: "テストは _____ でした。", correctAnswer: "簡単[かんたん]", thaiTranslation: "ข้อสอบง่าย", distractors: ["賑[にぎ]やか", "親切[しんせつ]", "静[しず]か"] },
+  { sentenceWithBlank: "あの 映画[えいが]は _____ です。", correctAnswer: "有名[ゆうめい]", thaiTranslation: "หนังเรื่องนั้นมีชื่อเสียง", distractors: ["親切[しんせつ]", "暇[ひま]", "綺麗[きれい]"] },
+  { sentenceWithBlank: "この 水[みず]は _____ です。", correctAnswer: "冷[つめ]たい", thaiTranslation: "น้ำนี้เย็น", distractors: ["熱[あつ]い", "暑[あつ]い", "甘[あま]い"] },
+  { sentenceWithBlank: "山田[やまだ]さんは _____ です。", correctAnswer: "元気[げんき]", thaiTranslation: "คุณยามะดะแข็งแรงดี", distractors: ["静[しず]か", "賑[にぎ]やか", "親切[しんせつ]"] },
+  { sentenceWithBlank: "今日[きょう]は _____ です。", correctAnswer: "暇[ひま]", thaiTranslation: "วันนี้ว่าง", distractors: ["賑[にぎ]やか", "有名[ゆうめい]", "暑[あつ]い"] },
+  { sentenceWithBlank: "お茶[ちゃ]が _____ です。", correctAnswer: "熱[あつ]い", thaiTranslation: "ชาร้อน", distractors: ["暑[あつ]い", "甘[あま]い", "広い[ひろい]"] },
+  { sentenceWithBlank: "京都[きょうと]は _____ 町[まち]です。", correctAnswer: "静か[しずか]", thaiTranslation: "เกียวโตเป็นเมืองที่เงียบสงบ", distractors: ["賑[にぎ]やか", "忙[いそが]しい", "暑[あつ]い"] },
+  { sentenceWithBlank: "明日[あした]は _____ です。", correctAnswer: "休み[やすみ]", thaiTranslation: "พรุ่งนี้เป็นวันหยุด", distractors: ["賑[にぎ]やか", "有名[ゆうめい]", "静[しず]か"] },
+  { sentenceWithBlank: "新[あたら]しい 靴[くつ]は _____ です。", correctAnswer: "白[しろ]い", thaiTranslation: "รองเท้าใหม่สีขาว", distractors: ["暑[あつ]い", "静[しず]か", "有名[ゆうめい]"] },
+  { sentenceWithBlank: "海[うみ]は _____ です。", correctAnswer: "青[あお]い", thaiTranslation: "ทะเลสีน้ำเงิน", distractors: ["赤[あか]い", "白[しろ]い", "黒[くろ]い"] },
+  { sentenceWithBlank: "この ズボンは _____ です。", correctAnswer: "短[みじか]い", thaiTranslation: "กางเกงนี้สั้น", distractors: ["長[なが]い", "高[たか]い", "広[ひろ]い"] },
+  { sentenceWithBlank: "私[わたし]は _____ です。", correctAnswer: "忙[いそが]しい", thaiTranslation: "ฉันยุ่งมาก", distractors: ["暇[ひま]", "静[しず]か", "有名[ゆうめい]"] },
 
-  // --- กลุ่มคำถามและปริมาณ (Questions & Quantities) ---
-  {
-    sentenceWithBlank: "りんごを _____ 買[か]いましたか。",
-    correctAnswer: "いくつ",
-    thaiTranslation: "ซื้อแอปเปิ้ลมากี่ลูกหรือครับ/คะ",
-    distractors: ["いくら", "どこ", "だれ"]
-  },
-  {
-    sentenceWithBlank: "その 傘[かさ]は _____ ですか。",
-    correctAnswer: "いくら",
-    thaiTranslation: "ร่มคันนั้นราคาเท่าไหร่ครับ/คะ",
-    distractors: ["いつ", "だれ", "なに"]
-  },
-  {
-    sentenceWithBlank: "教室[きょうしつ]に 学生[がくせい]が _____ いますか。",
-    correctAnswer: "何人[なんにん]",
-    thaiTranslation: "ในห้องเรียนมีนักเรียนกี่คนครับ/คะ",
-    distractors: ["何時[なんじ]", "何個[なんこ]", "何回[なんかい]"]
-  },
-  {
-    sentenceWithBlank: "猫[ねこ]が 三[さん] _____ います。",
-    correctAnswer: "匹[びき]",
-    thaiTranslation: "มีแมวอยู่ 3 ตัว",
-    distractors: ["本[ほん]", "枚[まい]", "冊[さつ]"]
-  },
+  // --- 101-120: Counters & Numbers (つ, 人, 本, etc) ---
+  { sentenceWithBlank: "リンゴを 五[いつ]つ _____。", correctAnswer: "買[か]いました", thaiTranslation: "ซื้อแอปเปิ้ล 5 ลูก", distractors: ["食[た]べました", "見[み]ました", "飲[の]みました"] },
+  { sentenceWithBlank: "学生[がくせい]が 三人[さんにん] _____。", correctAnswer: "います", thaiTranslation: "มีนักเรียนอยู่ 3 คน", distractors: ["あります", "します", "きます"] },
+  { sentenceWithBlank: "ビールを 二本[にほん] _____。", correctAnswer: "飲[の]みました", thaiTranslation: "ดื่มเบียร์ 2 ขวด", distractors: ["買[か]いました", "食[た]べました", "見[み]ました"] },
+  { sentenceWithBlank: "猫[ねこ]が 一匹[いっぴき] _____。", correctAnswer: "います", thaiTranslation: "มีแมวอยู่ 1 ตัว", distractors: ["あります", "します", "きます"] },
+  { sentenceWithBlank: "シャツを 二枚[にまい] _____。", correctAnswer: "買[か]いました", thaiTranslation: "ซื้อเสื้อเชิ้ต 2 ตัว", distractors: ["飲[の]みました", "食[た]べました", "見[み]ました"] },
+  { sentenceWithBlank: "本[ほん]を 三冊[さんさつ] _____。", correctAnswer: "買[か]いました", thaiTranslation: "ซื้อหนังสือ 3 เล่ม", distractors: ["飲[の]みました", "食[た]べました", "見[み]ました"] },
+  { sentenceWithBlank: "家族[かぞく]は 四人[よにん] _____。", correctAnswer: "です", thaiTranslation: "ครอบครัวมี 4 คน", distractors: ["ます", "あります", "します"] },
+  { sentenceWithBlank: "卵[たまご]を 十[とお] _____ 買[か]いました。", correctAnswer: "こ", thaiTranslation: "ซื้อไข่ 10 ฟอง", distractors: ["つ", "枚[まい]", "本[ほん]"] },
+  { sentenceWithBlank: "車[くるま]が 五台[ごだい] _____。", correctAnswer: "あります", thaiTranslation: "มีรถอยู่ 5 คัน", distractors: ["います", "します", "きます"] },
+  { sentenceWithBlank: "みかんを 二[ふた]つ _____。", correctAnswer: "食[た]べました", thaiTranslation: "กินส้ม 2 ลูก", distractors: ["見[み]ました", "飲[の]みました", "聞[き]きました"] },
+  { sentenceWithBlank: "コーヒーを 三杯[さんばい] _____。", correctAnswer: "飲[の]みました", thaiTranslation: "ดื่มกาแฟ 3 แก้ว", distractors: ["食[た]べました", "買[か]いました", "見[み]ました"] },
+  { sentenceWithBlank: "子供[こども]が 二人[ふたり] _____。", correctAnswer: "います", thaiTranslation: "มีเด็ก 2 คน", distractors: ["あります", "します", "きます"] },
+  { sentenceWithBlank: "切手[きって]を 五枚[ごまい] _____。", correctAnswer: "買[か]いました", thaiTranslation: "ซื้อแสตมป์ 5 ดวง", distractors: ["見[み]ました", "飲[の]みました", "聞[き]きました"] },
+  { sentenceWithBlank: "一月[いちがつ]に 二回[にかい] 映画[えいが]を _____。", correctAnswer: "見[み]ます", thaiTranslation: "ดูหนังเดือนละ 2 ครั้ง", distractors: ["食[た]べます", "飲[の]みます", "聞[き]きます"] },
+  { sentenceWithBlank: "ペンを 三本[さんぼん] _____。", correctAnswer: "持[も]っています", thaiTranslation: "มีปากกา 3 ด้าม", distractors: ["食[た]べています", "飲[の]んでいます", "見[み]ています"] },
+  { sentenceWithBlank: "三時[さんじ] _____ 十五分[じゅうごふん] 前[まえ]です。", correctAnswer: "の", thaiTranslation: "อีก 15 นาที 3 โมง", distractors: ["を", "は", "に"] },
+  { sentenceWithBlank: "一[いち]人[にん] _____ 映画[えいが]を 見[み]に 行[い]きます。", correctAnswer: "で", thaiTranslation: "ไปดูหนังคนเดียว", distractors: ["を", "に", "は"] },
+  { sentenceWithBlank: "お菓子[かし]を 三[みっ]つ _____。", correctAnswer: "買[か]いました", thaiTranslation: "ซื้อขนม 3 ชิ้น", distractors: ["飲[の]みました", "見[み]ました", "聞[き]きました"] },
+  { sentenceWithBlank: "一週間[いっしゅうかん] _____ 三回[さんかい] スポーツを します。", correctAnswer: "に", thaiTranslation: "เล่นกีฬา 3 ครั้งต่อสัปดาห์", distractors: ["を", "は", "が"] },
+  { sentenceWithBlank: "全部[ぜんぶ] _____ いくらですか。", correctAnswer: "で", thaiTranslation: "ทั้งหมดราคาเท่าไหร่", distractors: ["に", "を", "は"] },
 
-  // --- กลุ่มความสามารถและความชอบ (Abilities & Preferences) ---
-  {
-    sentenceWithBlank: "私[わたし]は 日本語[にほんご] _____ 少し[すこし] 分[わ]かります。",
-    correctAnswer: "が",
-    thaiTranslation: "ฉันเข้าใจภาษาญี่ปุ่นนิดหน่อย",
-    distractors: ["を", "に", "へ"]
-  },
-  {
-    sentenceWithBlank: "兄[あに]は 料理[りょうり]が _____ です。",
-    correctAnswer: "上手[じょうず]",
-    thaiTranslation: "พี่ชายทำอาหารเก่ง",
-    distractors: ["下手[へた]", "きれい", "好き[すき]"]
-  },
-  {
-    sentenceWithBlank: "あなた _____ 好き[すき]な スポーツは 何[なに]ですか。",
-    correctAnswer: "の",
-    thaiTranslation: "กีฬาที่คุณชอบคืออะไรครับ/คะ",
-    distractors: ["を", "が", "に"]
-  },
+  // --- 121-140: Verbs Forms (て-form, ない-form, etc) ---
+  { sentenceWithBlank: "写真[しゃしん]を _____ も いいですか。", correctAnswer: "撮[と]って", thaiTranslation: "ถ่ายรูปได้ไหม", distractors: ["撮[と]る", "撮[と]り", "撮[と]った"] },
+  { sentenceWithBlank: "ここ _____ 座[すわ]っても いいですか。", correctAnswer: "に", thaiTranslation: "นั่งตรงนี้ได้ไหม", distractors: ["を", "は", "が"] },
+  { sentenceWithBlank: "タバコを _____ ください。", correctAnswer: "吸[す]わないで", thaiTranslation: "กรุณาอย่าสูบบุหรี่", distractors: ["吸[す]って", "吸[す]う", "吸[す]った"] },
+  { sentenceWithBlank: "テレビを _____ も いいですか。", correctAnswer: "見[み]て", thaiTranslation: "ดูทีวีได้ไหม", distractors: ["見[み]る", "見[み]ない", "見[み]た"] },
+  { sentenceWithBlank: "ここ _____ 名前[なまえ]を 書[か]いてください。", correctAnswer: "に", thaiTranslation: "กรุณาเขียนชื่อลงตรงนี้", distractors: ["を", "で", "へ"] },
+  { sentenceWithBlank: "靴[くつ]を _____ ください。", correctAnswer: "脱[ぬ]いで", thaiTranslation: "กรุณาถอดรองเท้า", distractors: ["履[は]いて", "脱[ぬ]ぐ", "脱[ぬ]いだ"] },
+  { sentenceWithBlank: "窓[まど]を _____ ください。", correctAnswer: "開[あ]けて", thaiTranslation: "กรุณาเปิดหน้าต่าง", distractors: ["閉[し]めて", "開[あ]ける", "開[あ]けた"] },
+  { sentenceWithBlank: "一緒[いっしょ]に _____ 行[い]きませんか。", correctAnswer: "食[た]べに", thaiTranslation: "ไปกินข้าวด้วยกันไหม", distractors: ["食[た]べて", "食[た]べる", "食[た]べた"] },
+  { sentenceWithBlank: "コーヒーを _____ たいです。", correctAnswer: "飲[の]み", thaiTranslation: "อยากดื่มกาแฟ", distractors: ["飲[の]む", "飲[の]んで", "飲[の]んだ"] },
+  { sentenceWithBlank: "日本語[にほんご]を _____ います。", correctAnswer: "勉強[べんきょう]して", thaiTranslation: "กำลังเรียนภาษาญี่ปุ่นอยู่", distractors: ["勉強[べんきょう]する", "勉強[べんきょう]し", "勉強[べんきょう]した"] },
+  { sentenceWithBlank: "昨日[きのう]は どこへも _____。", correctAnswer: "行[い]きませんでした", thaiTranslation: "เมื่อวานไม่ได้ไปไหนเลย", distractors: ["行[い]きました", "行[い]きます", "行[い]きません"] },
+  { sentenceWithBlank: "毎日[まいにち] 漢字[かんじ]を _____ います。", correctAnswer: "練習[れんしゅう]して", thaiTranslation: "ฝึกเขียนคันจุอยู่ทุกวัน", distractors: ["練習[れんしゅう]する", "練習[れんしゅう]し", "練習[れんしゅう]した"] },
+  { sentenceWithBlank: "傘[かさ]を _____ ください。", correctAnswer: "貸[か]して", thaiTranslation: "กรุณาให้ยืมร่มหน่อย", distractors: ["借[か]りて", "持[も]って", "返[かえ]して"] },
+  { sentenceWithBlank: "ちょっと _____ ください。", correctAnswer: "待[ま]って", thaiTranslation: "กรุณารอสักครู่", distractors: ["行[い]って", "来[き]て", "見[み]て"] },
+  { sentenceWithBlank: "電気[でんき]を _____ も いいですか。", correctAnswer: "消[け]して", thaiTranslation: "ปิดไฟได้ไหม", distractors: ["つけて", "消[け]す", "消[け]した"] },
+  { sentenceWithBlank: "ゆっくり _____ ください。", correctAnswer: "話[はな]して", thaiTranslation: "กรุณาพูดช้าๆ", distractors: ["話[はな]す", "話[はな]し", "話[はな]した"] },
+  { sentenceWithBlank: "砂糖[さとう]を _____ ください。", correctAnswer: "入[い]れないで", thaiTranslation: "กรุณาอย่าใส่น้ำตาล", distractors: ["入[い]れて", "入[い]れる", "入[い]れた"] },
+  { sentenceWithBlank: "名前[なまえ]を _____ ください。", correctAnswer: "教[おし]えて", thaiTranslation: "กรุณาบอกชื่อ", distractors: ["書[か]いて", "読[よ]んで", "聞[き]いて"] },
+  { sentenceWithBlank: "本[ほん]を _____ ください。", correctAnswer: "返[かえ]して", thaiTranslation: "กรุณาคืนหนังสือ", distractors: ["借[か]りて", "貸[か]して", "買[か]って"] },
+  { sentenceWithBlank: "明日[あした] _____ 来[き]てください。", correctAnswer: "また", thaiTranslation: "พรุ่งนี้มาใหม่นะ", distractors: ["すぐ", "もっと", "ゆっくり"] },
 
-  // --- กลุ่มรูปประโยคขอร้องและคำสั่ง (Requests & Commands) ---
-  {
-    sentenceWithBlank: "ここ _____ 名前[なまえ]を 書[か]いてください。",
-    correctAnswer: "に",
-    thaiTranslation: "กรุณาเขียนชื่อลงตรงนี้ครับ/คะ",
-    distractors: ["を", "で", "は"]
-  },
-  {
-    sentenceWithBlank: "窓[まど]を _____ ください。",
-    correctAnswer: "開[あ]けて",
-    thaiTranslation: "กรุณาเปิดหน้าต่างหน่อยครับ/คะ",
-    distractors: ["閉[し]めて", "待[ま]って", "見[み]せて"]
-  },
-  {
-    sentenceWithBlank: "写真[しゃしん]を _____ も いいですか。",
-    correctAnswer: "撮[と]って",
-    thaiTranslation: "ถ่ายรูปได้ไหมครับ/คะ (ขออนุญาต)",
-    distractors: ["撮[と]り", "撮[と]る", "撮[と]った"]
-  },
+  // --- 141-160: Adverbs & Quantity Words ---
+  { sentenceWithBlank: "日本語[にほんご]が _____ 分[わ]かります。", correctAnswer: "少し[すこし]", thaiTranslation: "เข้าใจภาษาญี่ปุ่นนิดหน่อย", distractors: ["たくさん", "とても", "あまり"] },
+  { sentenceWithBlank: "お腹[なか]が _____ 痛[いた]いです。", correctAnswer: "とても", thaiTranslation: "ปวดท้องมาก", distractors: ["少し[すこし]", "あまり", "全然[ぜんぜん]"] },
+  { sentenceWithBlank: "お金[かね]が _____ ありません。", correctAnswer: "あまり", thaiTranslation: "ไม่ค่อยมีเงิน", distractors: ["とても", "たくさん", "少し[すこし]"] },
+  { sentenceWithBlank: "漢字[かんじ]が _____ 分[わ]かりません。", correctAnswer: "全然[ぜんぜん]", thaiTranslation: "ไม่เข้าใจคันจิเลย", distractors: ["とても", "たくさん", "少し[すこし]"] },
+  { sentenceWithBlank: "_____ 勉強[べんきょう]してください。", correctAnswer: "もっと", thaiTranslation: "กรุณาเรียนให้มากขึ้น", distractors: ["少し[すこし]", "あまり", "全然[ぜんぜん]"] },
+  { sentenceWithBlank: "_____ 行[い]きましょう。", correctAnswer: "すぐ", thaiTranslation: "ไปเดี๋ยวนี้เลย", distractors: ["ゆっくり", "もっと", "あまり"] },
+  { sentenceWithBlank: "_____ 食[た]べてください。", correctAnswer: "ゆっくり", thaiTranslation: "กรุณากินช้าๆ", distractors: ["すぐ", "もっと", "あまり"] },
+  { sentenceWithBlank: "毎日[まいにち] _____ 漢字[かんじ]を 書[か]きます。", correctAnswer: "たくさん", thaiTranslation: "เขียนคันจิจำนวนมากทุกวัน", distractors: ["少し[すこし]", "あまり", "全然[ぜんぜん]"] },
+  { sentenceWithBlank: "_____ 天気[てんき]が いいです。", correctAnswer: "いつも", thaiTranslation: "อากาศดีเสมอ", distractors: ["時々[ときどき]", "あまり", "全然[ぜんぜん]"] },
+  { sentenceWithBlank: "_____ 映画[えいが]を 見[み]ます。", correctAnswer: "時々[ときどき]", thaiTranslation: "ดูหนังเป็นบางครั้ง", distractors: ["いつも", "あまり", "全然[ぜんぜん]"] },
+  { sentenceWithBlank: "今日[きょう]は _____ 忙[いそが]しいです。", correctAnswer: "とても", thaiTranslation: "วันนี้ยุ่งมาก", distractors: ["少し[すこし]", "あまり", "全然[ぜันぜん]"] },
+  { sentenceWithBlank: "_____ 晩[ばん]ご飯[はん]を 食[た]べますか。", correctAnswer: "いつ", thaiTranslation: "กินข้าวเย็นเมื่อไหร่", distractors: ["どこ", "だれ", "なに"] },
+  { sentenceWithBlank: "宿題[しゅくだい]は _____ しましたか。", correctAnswer: "もう", thaiTranslation: "ทำการบ้านเสร็จหรือยัง", distractors: ["まだ", "すぐ", "もっと"] },
+  { sentenceWithBlank: "_____ 分[わ]かりません。", correctAnswer: "まだ", thaiTranslation: "ยังไม่เข้าใจ", distractors: ["もう", "すぐ", "もっと"] },
+  { sentenceWithBlank: "_____ 料理[りょうり]が 好[す]きですか。", correctAnswer: "どんな", thaiTranslation: "ชอบอาหารแบบไหน", distractors: ["どこ", "だれ", "いつ"] },
+  { sentenceWithBlank: "田中[たなか]さんは _____ 行[い]きましたか。", correctAnswer: "どこへ", thaiTranslation: "คุณทานากะไปที่ไหนมา", distractors: ["だれと", "いつ", "なにを"] },
+  { sentenceWithBlank: "この ペンは _____ ですか。", correctAnswer: "いくら", thaiTranslation: "ปากกานี้ราคาเท่าไหร่", distractors: ["どこ", "だれ", "いつ"] },
+  { sentenceWithBlank: "りんごを _____ 買[か]いましたか。", correctAnswer: "いくつ", thaiTranslation: "ซื้อแอปเปิ้ลมากี่ลูก", distractors: ["いくら", "どこ", "だれ"] },
+  { sentenceWithBlank: "_____ 日本語[にほんご]を 勉強[べんきょう]しましたか。", correctAnswer: "いつ", thaiTranslation: "เรียนภาษาญี่ปุ่นเมื่อไหร่", distractors: ["どこ", "だれ", "なに"] },
+  { sentenceWithBlank: "昨日[きのう] _____ 会[あ]いましたか。", correctAnswer: "誰[だれ]に", thaiTranslation: "เมื่อวานเจอใคร", distractors: ["どこで", "いつ", "なにを"] },
 
-  // --- เพิ่มเติมชุดใหญ่ (Additional Variety) ---
-  {
-    sentenceWithBlank: "部屋[へや]に 誰[だれ] _____ いません。",
-    correctAnswer: "も",
-    thaiTranslation: "ไม่มีใครอยู่ในห้องเลย",
-    distractors: ["が", "は", "に"]
-  },
-  {
-    sentenceWithBlank: "駅[えき]から 大学[だいがく] _____ 歩[ある]いて 行[い]きます。",
-    correctAnswer: "まで",
-    thaiTranslation: "เดินจากสถานีไปจนถึงมหาวิทยาลัย",
-    distractors: ["から", "に", "へ"]
-  },
-  {
-    sentenceWithBlank: "暑い[あつい]ですから、エアコンを _____ ください。",
-    correctAnswer: "つけて",
-    thaiTranslation: "เพราะว่ามันร้อน กรุณาเปิดแอร์ให้หน่อยครับ/คะ",
-    distractors: ["消[け]して", "開[あ]けて", "閉[し]めて"]
-  },
-  {
-    sentenceWithBlank: "毎日[まいにち] 忙しい[いそがしい]ですが、_____ です。",
-    correctAnswer: "楽しい[たのしい]",
-    thaiTranslation: "ทุกวันยุ่งมากแต่ก็สนุกดี",
-    distractors: ["難しい[むずかしい]", "寒い[さむい]", "暑い[あつい]"]
-  },
-  {
-    sentenceWithBlank: "_____ は 誰[だれ]ですか。",
-    correctAnswer: "あの人[ひと]",
-    thaiTranslation: "คนนั้นคือใครหรือครับ/คะ",
-    distractors: ["それ", "どこ", "これ"]
-  },
-  {
-    sentenceWithBlank: "弟[おとうと]は テニス _____ 下手[へた]です。",
-    correctAnswer: "が",
-    thaiTranslation: "น้องชายเล่นเทนนิสไม่เก่ง",
-    distractors: ["を", "に", "は"]
-  },
-  {
-    sentenceWithBlank: "冷[つめ]たい 水[みず]を _____ たいです。",
-    correctAnswer: "飲[の]み",
-    thaiTranslation: "อยากดื่มน้ำเย็น",
-    distractors: ["食[た]べ", "買[か]い", "見[み]"]
-  },
-  {
-    sentenceWithBlank: "家族[かぞく] _____ 手紙[てがみ]を 書[か]きました。",
-    correctAnswer: "に",
-    thaiTranslation: "เขียนจดหมายถึงครอบครัว",
-    distractors: ["を", "へ", "も"]
-  },
-  {
-    sentenceWithBlank: "公園[こうえん]へ 散歩[さんぽ] _____ 行[い]きます。",
-    correctAnswer: "に",
-    thaiTranslation: "ไปเดินเล่นที่สวนสาธารณะ",
-    distractors: ["を", "へ", "が"]
-  },
-  {
-    sentenceWithBlank: "母[はは]は 料理[りょうり]が _____ です。",
-    correctAnswer: "上手[じょうず]",
-    thaiTranslation: "แม่ทำอาหารเก่ง",
-    distractors: ["綺麗[きれい]", "有名[ゆうめい]", "暇[ひま]"]
-  },
-  {
-    sentenceWithBlank: "お父[とう]さんは 今[いま] _____ を 読[よ]んでいますか。",
-    correctAnswer: "新聞[しんぶん]",
-    thaiTranslation: "ตอนนี้คุณพ่อกำลังอ่านหนังสือพิมพ์อยู่หรือครับ/คะ",
-    distractors: ["雑誌[ざっし]", "手紙[てกามิ]", "本[ほん]"]
-  },
-  {
-    sentenceWithBlank: "車[くるま]の 中[なか] _____ 鍵[かぎ]を 忘れました。",
-    correctAnswer: "に",
-    thaiTranslation: "ลืมกุญแจไว้ในรถ",
-    distractors: ["を", "は", "で"]
-  },
-  {
-    sentenceWithBlank: "窓[まど]から 海[うみ] _____ 見[み]えます。",
-    correctAnswer: "が",
-    thaiTranslation: "มองเห็นทะเลจากหน้าต่าง",
-    distractors: ["を", "に", "は"]
-  },
-  {
-    sentenceWithBlank: "鉛筆[えんぴつ] _____ 書[か]いてください。",
-    correctAnswer: "で",
-    thaiTranslation: "กรุณาเขียนด้วยดินสอ",
-    distractors: ["を", "に", "から"]
-  },
-  {
-    sentenceWithBlank: "_____ は 寒い[さむい]ですね。",
-    correctAnswer: "冬[ふゆ]",
-    thaiTranslation: "ฤดูหนาวหนาวเนอะ",
-    distractors: ["夏[なつ]", "春[はる]", "秋[あき]"]
-  },
-  {
-    sentenceWithBlank: "_____ が 痛[いた]いです。",
-    correctAnswer: "頭[あたま]",
-    thaiTranslation: "ปวดหัวครับ/คะ",
-    distractors: ["手[て]", "足[あし]", "目[め]"]
-  },
-  {
-    sentenceWithBlank: "_____ 映画[えいが]を 見[み]ました。",
-    correctAnswer: "昨日[きのう]",
-    thaiTranslation: "เมื่อวานดูหนังมา",
-    distractors: ["明日[あした]", "今[いま]", "毎日[まいにち]"]
-  },
-  {
-    sentenceWithBlank: "山[やま]の 高[たか]さは _____ ですか。",
-    correctAnswer: "どのくらい",
-    thaiTranslation: "ภูเขาสูงประมาณเท่าไหร่ครับ/คะ",
-    distractors: ["どこ", "だれ", "なに"]
-  },
-  {
-    sentenceWithBlank: "_____ は とても 綺麗[きれい]です。",
-    correctAnswer: "京都[きょうと]",
-    thaiTranslation: "เกียวโตสวยมาก",
-    distractors: ["東京[とうきょう]", "大阪[おおさか]", "病院[びょういん]"]
-  },
-  {
-    sentenceWithBlank: "音楽[おんがく]を _____ ながら 勉強[べんきょう]します。",
-    correctAnswer: "聞き[きき]",
-    thaiTranslation: "ฟังเพลงไปเรียนไป",
-    distractors: ["見[み]", "食[た]べ", "書[か]き"]
-  },
-  {
-    sentenceWithBlank: "お金[かね]が _____ ありません。",
-    correctAnswer: "あまり",
-    thaiTranslation: "ไม่ค่อยมีเงินเลย",
-    distractors: ["とても", "たくさん", "ちょっと"]
-  },
-  {
-    sentenceWithBlank: "_____ お菓子[かし]ですね。",
-    correctAnswer: "甘い[あまい]",
-    thaiTranslation: "ขนมหวานจังเลยนะ",
-    distractors: ["辛い[からい]", "痛い[いたい]", "広い[ひろい]"]
-  },
-  {
-    sentenceWithBlank: "電話[でんわ] _____ 話[はな]します。",
-    correctAnswer: "で",
-    thaiTranslation: "คุยทางโทรศัพท์",
-    distractors: ["を", "に", "が"]
-  },
-  {
-    sentenceWithBlank: "名前[なまえ]を _____ ください。",
-    correctAnswer: "教[おし]えて",
-    thaiTranslation: "ช่วยบอกชื่อหน่อยครับ/คะ",
-    distractors: ["書[か]いて", "読[よ]んで", "聞[き]いて"]
-  },
-  {
-    sentenceWithBlank: "背[せ]が _____ です。",
-    correctAnswer: "高い[たかい]",
-    thaiTranslation: "ตัวสูง",
-    distractors: ["低い[ひくい]", "長い[ながい]", "短い[みじかい]"]
-  },
-  {
-    sentenceWithBlank: "分[わ]からない 時[とき]は 辞書[じしょ]を _____。",
-    correctAnswer: "引き[ひき]ます",
-    thaiTranslation: "เวลาไม่เข้าใจจะเปิดพจนานุกรม",
-    distractors: ["見[み]ます", "書[か]きます", "読み[よみ]ます"]
-  }
+  // --- 161-180: Comparisons & Preferences ---
+  { sentenceWithBlank: "テニス _____ サッカーの 方[ほう]が 好[す]きです。", correctAnswer: "より", thaiTranslation: "ชอบฟุตบอลมากกว่าเทนนิส", distractors: ["ほど", "と", "は"] },
+  { sentenceWithBlank: "日本[にほん] _____ タイの 方[ほう]が 暑[あつ]いです。", correctAnswer: "より", thaiTranslation: "ประเทศไทยร้อนกว่าญี่ปุ่น", distractors: ["ほど", "と", "は"] },
+  { sentenceWithBlank: "スポーツの 中[なか]で 何[なに] _____ 一番[いちばん] 好き[すき]ですか。", correctAnswer: "が", thaiTranslation: "ในบรรดากีฬา ชอบอะไรที่สุด", distractors: ["を", "は", "に"] },
+  { sentenceWithBlank: "一年[いちねん]で いつ _____ 一番[いちばん] 寒[さむ]いですか。", correctAnswer: "が", thaiTranslation: "ในรอบปี ช่วงไหนหนาวที่สุด", distractors: ["を", "は", "に"] },
+  { sentenceWithBlank: "リンゴ _____ バナナと どちらが 好[す]きですか。", correctAnswer: "と", thaiTranslation: "ระหว่างแอปเปิ้ลกับกล้วย ชอบอันไหนมากกว่า", distractors: ["より", "は", "が"] },
+  { sentenceWithBlank: "料理[りょうり] _____ 好[す]きですか。", correctAnswer: "が", thaiTranslation: "ชอบทำอาหารไหม", distractors: ["を", "は", "に"] },
+  { sentenceWithBlank: "お酒[さけ] _____ 飲[の]めません。", correctAnswer: "は", thaiTranslation: "ดื่มเหล้าไม่ได้", distractors: ["ที่", "に", "を"] },
+  { sentenceWithBlank: "車[くるま] _____ 持[も]っていません。", correctAnswer: "を", thaiTranslation: "ไม่มีรถ", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "明日[あした]の 予定[よてい] _____ 教[おし]えてください。", correctAnswer: "を", thaiTranslation: "กรุณาบอกกำหนดการของวันพรุ่งนี้", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "海[うみ] _____ 行[い]きたいです。", correctAnswer: "へ", thaiTranslation: "อยากไปทะเล", distractors: ["を", "が", "กับ"] },
+  { sentenceWithBlank: "日本語[にほんご]の 歌[うた] _____ 歌[うた]えます。", correctAnswer: "が", thaiTranslation: "ร้องเพลงญี่ปุ่นได้", distractors: ["を", "は", "に"] },
+  { sentenceWithBlank: "漢字[かんじ] _____ 書[か]けません。", correctAnswer: "は", thaiTranslation: "เขียนคันจิไม่ได้", distractors: ["ที่", "に", "を"] },
+  { sentenceWithBlank: "コーヒー _____ 飲[の]みます。", correctAnswer: "を", thaiTranslation: "ดื่มกาแฟ", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "田中[たなか]さん _____ 知[し]っていますか。", correctAnswer: "を", thaiTranslation: "รู้จักคุณทานากะไหม", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "仕事[しごと] _____ 忙[いそが]しいです。", correctAnswer: "が", thaiTranslation: "งานยุ่ง", distractors: ["を", "は", "に"] },
+  { sentenceWithBlank: "夏[なつ] _____ 休[やす]みは どこへ 行[い]きますか。", correctAnswer: "の", thaiTranslation: "วันหยุดฤดูร้อนจะไปที่ไหน", distractors: ["は", "ที่", "に"] },
+  { sentenceWithBlank: "新聞[しんぶん] _____ 読[よ]みますか。", correctAnswer: "を", thaiTranslation: "อ่านหนังสือพิมพ์ไหม", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "自転車[じてんしゃ] _____ 行[い]きます。", correctAnswer: "で", thaiTranslation: "ไปโดยจักรยาน", distractors: ["に", "へ", "を"] },
+  { sentenceWithBlank: "ペン _____ 書[か]いてください。", correctAnswer: "で", thaiTranslation: "กรุณาเขียนด้วยปากกา", distractors: ["に", "へ", "を"] },
+  { sentenceWithBlank: "家族[かぞく] _____ 電話[でんわ]を します。", correctAnswer: "に", thaiTranslation: "โทรศัพท์หาครอบครัว", distractors: ["を", "ที่", "は"] },
+
+  // --- 181-200: Mixed N5 Practice ---
+  { sentenceWithBlank: "駅[えき] _____ 大学[だいがく] まで バスで 行[い]きます。", correctAnswer: "から", thaiTranslation: "จากสถานีไปมหาวิทยาลัยไปโดยรถเมล์", distractors: ["まで", "に", "へ"] },
+  { sentenceWithBlank: "部屋[へや]に 誰[だれ] _____ いません。", correctAnswer: "も", thaiTranslation: "ไม่มีใครอยู่ในห้องเลย", distractors: ["が", "は", "に"] },
+  { sentenceWithBlank: "机[つくえ]の 上[うえ] _____ 本[ほん]が 三冊[さんさつ] あります。", correctAnswer: "に", thaiTranslation: "บนโต๊ะมีหนังสืออยู่ 3 เล่ม", distractors: ["を", "は", "ที่"] },
+  { sentenceWithBlank: "昨日[きのう] 十時[じゅうじ] _____ 寝[ね]ました。", correctAnswer: "に", thaiTranslation: "เมื่อวานนอนตอน 4 ทุ่ม", distractors: ["ที่", "は", "が"] },
+  { sentenceWithBlank: "明日[あした] 映画[えいが]を _____ 行[い]きませんか。", correctAnswer: "見[み]に", thaiTranslation: "พรุ่งนี้ไปดูหนังกันไหม", distractors: ["見[み]て", "見[み]る", "見[み]た"] },
+  { sentenceWithBlank: "この 料理[りょうり]は あまり _____。", correctAnswer: "おいしくないです", thaiTranslation: "อาหารจานนี้ไม่ค่อยอร่อย", distractors: ["おいしいです", "おいしかったです", "おいしかったです"] },
+  { sentenceWithBlank: "昨日[きのう]は とても _____。", correctAnswer: "暑[あつ]かったです", thaiTranslation: "เมื่อวานร้อนมาก", distractors: ["暑[あつ]いです", "暑[あつ]くないです", "暑[あつ]くなかったです"] },
+  { sentenceWithBlank: "日本語[にほんご]を _____ ください。", correctAnswer: "教[おし]えて", thaiTranslation: "กรุณาสอนภาษาญี่ปุ่น", distractors: ["教[おし]える", "教[おし]え", "教[おし]えた"] },
+  { sentenceWithBlank: "もう一度[いちど] _____ ください。", correctAnswer: "言[い]って", thaiTranslation: "กรุณาพูดอีกครั้งหนึ่ง", distractors: ["言[い]う", "言[い]い", "言[い]った"] },
+  { sentenceWithBlank: "宿題[しゅくだい]は _____ ですか。", correctAnswer: "何[なに]", thaiTranslation: "การบ้านคืออะไร", distractors: ["どこ", "だれ", "いつ"] },
+  { sentenceWithBlank: "あなたの 国[くに] _____ 日本[にほん]と どちらが 広[ひろ]いですか。", correctAnswer: "と", thaiTranslation: "ระหว่างประเทศของคุณกับญี่ปุ่น อันไหนกว้างกว่ากัน", distractors: ["より", "は", "ที่"] },
+  { sentenceWithBlank: "果物[くだもの]の 中[なか]で バナナ _____ 一番[いちばん] 好[す]きです。", correctAnswer: "が", thaiTranslation: "ในบรรดาผลไม้ ชอบกล้วยที่สุด", distractors: ["を", "は", "に"] },
+  { sentenceWithBlank: "弟[おとうと]は テニス _____ 上手[じょうず]です。", correctAnswer: "が", thaiTranslation: "น้องชายเล่นเทนนิสเก่ง", distractors: ["を", "は", "に"] },
+  { sentenceWithBlank: "母[はは]は 料理[りょうり] _____ 下手[へた]です。", correctAnswer: "が", thaiTranslation: "แม่ทำอาหารไม่เก่ง", distractors: ["を", "は", "に"] },
+  { sentenceWithBlank: "テレビを _____ ながら ご飯[はん]を 食[た]べます。", correctAnswer: "見[み]", thaiTranslation: "กินข้าวไปพลางดูทีวีไปพลาง", distractors: ["見[み]て", "見[み]る", "見[み]た"] },
+  { sentenceWithBlank: "コーヒーに 砂糖[さとう] _____ 入[い]れますか。", correctAnswer: "を", thaiTranslation: "ใส่น้ำตาลในกาแฟไหม", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "名前[なまえ] _____ 書[か]いてください。", correctAnswer: "を", thaiTranslation: "กรุณาเขียนชื่อ", distractors: ["ที่", "に", "は"] },
+  { sentenceWithBlank: "駅[えき]の 前[まえ] _____ 銀行[ぎんこう]が あります。", correctAnswer: "に", thaiTranslation: "ที่หน้าสถานีมีธนาคารอยู่", distractors: ["ที่", "は", "ที่"] },
+  { sentenceWithBlank: "昨日[きのう] パン _____ 卵[たまご]を 買[か]いました。", correctAnswer: "と", thaiTranslation: "เมื่อวานซื้อขนมปังกับไข่", distractors: ["を", "ที่", "に"] },
+  { sentenceWithBlank: "山田[やまだ]さんは _____ 人[ひと] ですか。", correctAnswer: "どんな", thaiTranslation: "คุณยามะดะเป็นคนอย่างไร", distractors: ["どこ", "だれ", "いつ"] }
 ];
