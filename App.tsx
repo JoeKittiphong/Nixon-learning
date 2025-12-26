@@ -13,13 +13,12 @@ const App: React.FC = () => {
   const [quiz, setQuiz] = useState<QuizState | null>(null);
   const [stats, setStats] = useState<UserStats>({ correctCount: 0, totalAttempts: 0, streak: 0 });
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   
   const [studyTab, setStudyTab] = useState<'hiragana' | 'katakana'>('hiragana');
 
-  // Function to render Ruby text from "Kanji[Furigana]Kana" format
   const renderRuby = (text: string, className: string = "") => {
     const parts = text.split(/([^\u3040-\u309F\u30A0-\u30FF]+\[[^\]]+\])/g);
-    
     return (
       <span className={className}>
         {parts.map((part, index) => {
@@ -92,7 +91,6 @@ const App: React.FC = () => {
 
     const correct = pool[Math.floor(Math.random() * pool.length)];
     const correctDisplay = formatOption(correct, activeMode);
-    
     const others = pool.filter(c => formatOption(c, activeMode) !== correctDisplay);
     const shuffledOthers = [...others].sort(() => 0.5 - Math.random());
     const distractorOptions: string[] = [];
@@ -105,10 +103,7 @@ const App: React.FC = () => {
       if (distractorOptions.length >= 3) break;
     }
     
-    while (distractorOptions.length < 3) {
-      distractorOptions.push("???");
-    }
-
+    while (distractorOptions.length < 3) distractorOptions.push("???");
     const options = [...distractorOptions, correctDisplay].sort(() => 0.5 - Math.random());
     
     setQuiz({
@@ -127,11 +122,7 @@ const App: React.FC = () => {
     setStats({ correctCount: 0, totalAttempts: 0, streak: 0 });
     setView(AppView.QUIZ);
     generateNewQuestion(selectedMode);
-  };
-
-  const handleBackToMenu = () => {
-    setView(AppView.MENU);
-    setQuiz(null);
+    setIsModalOpen(false);
   };
 
   const handleAnswer = (optionDisplay: string) => {
@@ -148,57 +139,153 @@ const App: React.FC = () => {
 
   if (view === AppView.MENU) {
     return (
-      <div className="min-h-screen flex flex-col p-6 view-enter">
-        <header className="flex flex-col items-center mt-10 mb-12">
-          <div className="w-20 h-20 bg-indigo-600 rounded-3xl flex items-center justify-center text-white text-4xl font-bold shadow-lg shadow-indigo-200 mb-4">
+      <div className="min-h-screen flex flex-col p-6 view-enter bg-[#fdfdfd]">
+        <header className="flex flex-col items-center mt-6 mb-10">
+          <div className="w-16 h-16 bg-indigo-600 rounded-[20px] flex items-center justify-center text-white text-3xl font-bold shadow-xl shadow-indigo-100 mb-3">
             あ
           </div>
-          <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">ZenKana</h1>
-          <p className="text-slate-500 font-medium">เรียนภาษาญี่ปุ่นแสนง่าย</p>
+          <h1 className="text-2xl font-extrabold text-slate-800 tracking-tight">ZenKana</h1>
+          <p className="text-slate-400 text-sm font-medium">เส้นทางการเรียนรู้ภาษาญี่ปุ่น</p>
         </header>
 
-        <main className="max-w-md mx-auto w-full space-y-4 flex-grow">
-          <div className="grid grid-cols-2 gap-4">
-            <button onClick={() => handleStartQuiz(QuizMode.HIRAGANA)} className="flat-card p-6 flex flex-col items-center hover:bg-slate-50 transition-colors">
-              <span className="text-3xl font-bold text-indigo-600">あ</span>
-              <span className="text-xs font-bold text-slate-400 mt-2 uppercase">Hiragana</span>
-            </button>
-            <button onClick={() => handleStartQuiz(QuizMode.KATAKANA)} className="flat-card p-6 flex flex-col items-center hover:bg-slate-50 transition-colors">
-              <span className="text-3xl font-bold text-indigo-600">ア</span>
-              <span className="text-xs font-bold text-slate-400 mt-2 uppercase">Katakana</span>
-            </button>
-          </div>
-
-          <div className="flat-card px-5 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                <i className="fa-solid fa-wand-magic-sparkles text-sm"></i>
-              </div>
-              <span className="text-sm font-bold text-slate-700">โหมดเสียงขุ่น (Dakuten)</span>
+        <main className="max-w-md mx-auto w-full space-y-8 flex-grow pb-10">
+          {/* Step 1: Alphabet */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 mb-2 px-1">
+              <span className="w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+              <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest">Alphabet Basics</h2>
             </div>
-            <button onClick={() => setUseDakuten(!useDakuten)} className={`w-12 h-6 rounded-full relative transition-colors ${useDakuten ? 'bg-indigo-600' : 'bg-slate-200'}`}>
-              <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${useDakuten ? 'left-7' : 'left-1'}`}></div>
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="w-full bg-white border-2 border-slate-100 rounded-[24px] p-5 flex items-center gap-4 hover:border-indigo-200 transition-all active:scale-[0.98] group shadow-sm"
+            >
+              <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 text-2xl group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                <i className="fa-solid fa-shapes text-lg"></i>
+              </div>
+              <div className="text-left flex-grow">
+                <h3 className="font-bold text-slate-800 text-lg leading-tight">ฝึกจำตัวอักษร</h3>
+                <p className="text-slate-400 text-xs">Hiragana & Katakana</p>
+              </div>
+              <i className="fa-solid fa-chevron-right text-slate-300"></i>
             </button>
-          </div>
+          </section>
 
-          <div className="space-y-3 pt-4">
-            <button onClick={() => handleStartQuiz(QuizMode.SENTENCE_FILL)} className="w-full bg-indigo-500 text-white rounded-[24px] py-5 text-sm font-bold shadow-lg shadow-indigo-100 flex items-center justify-center gap-3 active:scale-95 transition-transform">
-              <i className="fa-solid fa-pencil"></i> เติมคำในประโยค (N5)
-            </button>
-            <button onClick={() => handleStartQuiz(QuizMode.VERB_CONJUGATION)} className="w-full bg-emerald-500 text-white rounded-[24px] py-5 text-sm font-bold shadow-lg shadow-emerald-100 flex items-center justify-center gap-3 active:scale-95 transition-transform">
-              <i className="fa-solid fa-sync"></i> ผันกริยา & คุณศัพท์ (N5)
-            </button>
-            <button onClick={() => handleStartQuiz(QuizMode.READING_PRACTICE)} className="w-full flat-btn-primary py-4 text-sm font-bold shadow-md shadow-indigo-100 flex items-center justify-center gap-3">
-              <i className="fa-solid fa-microphone"></i> ฝึกอ่านออกเสียง
-            </button>
-            <button onClick={() => handleStartQuiz(QuizMode.VOCAB)} className="w-full flat-btn py-4 text-sm font-bold text-slate-700 flex items-center justify-center gap-3">
-              <i className="fa-solid fa-language text-indigo-500"></i> ทายคำศัพท์ N5
-            </button>
-            <button onClick={() => setView(AppView.STUDY)} className="w-full py-4 text-sm font-bold text-slate-400 flex items-center justify-center gap-3 hover:text-slate-600">
-              <i className="fa-solid fa-book-open"></i> ตารางตัวอักษร
-            </button>
-          </div>
+          {/* Step 2: Vocab */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 mb-2 px-1">
+              <span className="w-6 h-6 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+              <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest">Vocabulary</h2>
+            </div>
+            <div className="grid grid-cols-1 gap-3">
+              <button 
+                onClick={() => handleStartQuiz(QuizMode.VOCAB)}
+                className="bg-white border-2 border-slate-100 rounded-[24px] p-5 flex items-center gap-4 hover:border-emerald-200 transition-all active:scale-[0.98] group shadow-sm"
+              >
+                <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 text-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                  <i className="fa-solid fa-language"></i>
+                </div>
+                <div className="text-left flex-grow">
+                  <h3 className="font-bold text-slate-800 text-lg leading-tight">ทายคำศัพท์ N5</h3>
+                  <p className="text-slate-400 text-xs">คลังศัพท์พื้นฐาน</p>
+                </div>
+              </button>
+              <button 
+                onClick={() => handleStartQuiz(QuizMode.READING_PRACTICE)}
+                className="bg-white border-2 border-slate-100 rounded-[24px] p-5 flex items-center gap-4 hover:border-emerald-200 transition-all active:scale-[0.98] group shadow-sm"
+              >
+                <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 text-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                  <i className="fa-solid fa-microphone"></i>
+                </div>
+                <div className="text-left flex-grow">
+                  <h3 className="font-bold text-slate-800 text-lg leading-tight">ฝึกอ่านออกเสียง</h3>
+                  <p className="text-slate-400 text-xs">เน้นการออกเสียงที่ถูกต้อง</p>
+                </div>
+              </button>
+            </div>
+          </section>
+
+          {/* Step 3: Grammar */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 mb-2 px-1">
+              <span className="w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+              <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest">Grammar & Sentences</h2>
+            </div>
+            <div className="grid grid-cols-1 gap-3">
+              <button 
+                onClick={() => handleStartQuiz(QuizMode.VERB_CONJUGATION)}
+                className="bg-white border-2 border-slate-100 rounded-[24px] p-5 flex items-center gap-4 hover:border-orange-200 transition-all active:scale-[0.98] group shadow-sm"
+              >
+                <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600 text-xl group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                  <i className="fa-solid fa-sync"></i>
+                </div>
+                <div className="text-left flex-grow">
+                  <h3 className="font-bold text-slate-800 text-lg leading-tight">ผันกริยา & คุณศัพท์</h3>
+                  <p className="text-slate-400 text-xs">โครงสร้างประโยคพื้นฐาน</p>
+                </div>
+              </button>
+              <button 
+                onClick={() => handleStartQuiz(QuizMode.SENTENCE_FILL)}
+                className="bg-white border-2 border-slate-100 rounded-[24px] p-5 flex items-center gap-4 hover:border-orange-200 transition-all active:scale-[0.98] group shadow-sm"
+              >
+                <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600 text-xl group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                  <i className="fa-solid fa-pencil"></i>
+                </div>
+                <div className="text-left flex-grow">
+                  <h3 className="font-bold text-slate-800 text-lg leading-tight">เติมคำในประโยค (N5)</h3>
+                  <p className="text-slate-400 text-xs">ฝึกฝนในสถานการณ์จริง</p>
+                </div>
+              </button>
+            </div>
+          </section>
+
+          <button 
+            onClick={() => setView(AppView.STUDY)}
+            className="w-full py-6 text-sm font-bold text-slate-400 flex items-center justify-center gap-3 hover:text-indigo-500 transition-colors border-t border-slate-100"
+          >
+            <i className="fa-solid fa-book-open"></i> เปิดดูตารางตัวอักษรทั้งหมด
+          </button>
         </main>
+
+        {/* Modal Selection */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-6 animate-in fade-in duration-200">
+            <div className="bg-white w-full max-w-sm rounded-[32px] p-8 shadow-2xl scale-in-center animate-in zoom-in-95 duration-200">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-bold text-slate-800">เลือกโหมดฝึก</h3>
+                <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600"><i className="fa-solid fa-xmark text-xl"></i></button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 gap-2">
+                  <button onClick={() => handleStartQuiz(QuizMode.HIRAGANA)} className="w-full py-4 px-6 rounded-2xl border-2 border-slate-100 hover:border-indigo-500 hover:bg-indigo-50 font-bold text-slate-700 flex justify-between items-center group transition-all">
+                    <span>Hiragana (あ)</span>
+                    <i className="fa-solid fa-chevron-right opacity-0 group-hover:opacity-100 text-indigo-500"></i>
+                  </button>
+                  <button onClick={() => handleStartQuiz(QuizMode.KATAKANA)} className="w-full py-4 px-6 rounded-2xl border-2 border-slate-100 hover:border-indigo-500 hover:bg-indigo-50 font-bold text-slate-700 flex justify-between items-center group transition-all">
+                    <span>Katakana (ア)</span>
+                    <i className="fa-solid fa-chevron-right opacity-0 group-hover:opacity-100 text-indigo-500"></i>
+                  </button>
+                  <button onClick={() => handleStartQuiz(QuizMode.MIXED)} className="w-full py-4 px-6 rounded-2xl border-2 border-slate-100 hover:border-indigo-500 hover:bg-indigo-50 font-bold text-slate-700 flex justify-between items-center group transition-all">
+                    <span>Mixed (あ+ア)</span>
+                    <i className="fa-solid fa-chevron-right opacity-0 group-hover:opacity-100 text-indigo-500"></i>
+                  </button>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100">
+                  <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
+                    <div className="flex items-center gap-3">
+                      <i className="fa-solid fa-wand-magic-sparkles text-indigo-500"></i>
+                      <span className="text-sm font-bold text-slate-600">รวมเสียงขุ่น (Dakuten)</span>
+                    </div>
+                    <button onClick={() => setUseDakuten(!useDakuten)} className={`w-12 h-6 rounded-full relative transition-colors ${useDakuten ? 'bg-indigo-600' : 'bg-slate-300'}`}>
+                      <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${useDakuten ? 'left-7' : 'left-1'}`}></div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -209,22 +296,22 @@ const App: React.FC = () => {
       : (useDakuten ? [...KATAKANA, ...KATAKANA_DAKUTEN] : KATAKANA);
 
     return (
-      <div className="min-h-screen flex flex-col p-4 view-enter">
+      <div className="min-h-screen flex flex-col p-4 view-enter bg-white">
         <header className="flex items-center gap-4 mb-6 pt-4">
-          <button onClick={handleBackToMenu} className="w-10 h-10 flat-btn flex items-center justify-center text-slate-600">
+          <button onClick={() => setView(AppView.MENU)} className="w-10 h-10 flat-btn flex items-center justify-center text-slate-600 border-none bg-slate-100">
             <i className="fa-solid fa-chevron-left"></i>
           </button>
           <h2 className="text-xl font-bold text-slate-800">ตารางตัวอักษร</h2>
         </header>
 
-        <div className="flat-card p-2 mb-6 flex bg-slate-100/50">
-          <button onClick={() => setStudyTab('hiragana')} className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${studyTab === 'hiragana' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500'}`}>HIRAGANA</button>
-          <button onClick={() => setStudyTab('katakana')} className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${studyTab === 'katakana' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500'}`}>KATAKANA</button>
+        <div className="flat-card p-2 mb-6 flex bg-slate-50 border border-slate-100">
+          <button onClick={() => setStudyTab('hiragana')} className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${studyTab === 'hiragana' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}>HIRAGANA</button>
+          <button onClick={() => setStudyTab('katakana')} className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${studyTab === 'katakana' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}>KATAKANA</button>
         </div>
 
         <div className="grid grid-cols-4 gap-2 pb-10">
           {rawPool.map((item, idx) => (
-            <div key={`${item.char}-${idx}`} className="flat-card p-4 flex flex-col items-center justify-center gap-1">
+            <div key={`${item.char}-${idx}`} className="bg-white border border-slate-100 p-4 rounded-[20px] flex flex-col items-center justify-center gap-1 shadow-sm">
               <span className="text-2xl font-bold text-slate-800">{item.char}</span>
               <span className="text-[10px] font-bold text-indigo-400 uppercase">{item.romaji}</span>
             </div>
@@ -237,7 +324,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col p-5 view-enter bg-white">
       <header className="flex items-center justify-between mb-8">
-        <button onClick={handleBackToMenu} className="w-10 h-10 flat-btn flex items-center justify-center text-slate-500">
+        <button onClick={() => setView(AppView.MENU)} className="w-10 h-10 flat-btn flex items-center justify-center text-slate-500 border-none bg-slate-50">
           <i className="fa-solid fa-xmark"></i>
         </button>
         <div className="flex gap-2">
@@ -271,7 +358,6 @@ const App: React.FC = () => {
                   <div className="py-3 px-6 bg-indigo-50 text-indigo-700 rounded-2xl text-lg font-bold inline-block border border-indigo-100 shadow-sm">
                     {(quiz.currentCharacter as SentenceQuestion).thaiTranslation}
                   </div>
-                  <p className="mt-8 text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">เลือกคำที่ถูกต้องเพื่อเติมในช่องว่าง</p>
                 </div>
               ) : quiz.isConjugation ? (
                 <div className="text-center">
@@ -289,7 +375,6 @@ const App: React.FC = () => {
                   <div className="py-2.5 px-6 bg-slate-100 rounded-2xl text-slate-700 text-lg font-bold inline-block">
                     {(quiz.currentCharacter as VerbConjugation).meaning}
                   </div>
-                  <p className="mt-10 text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">ทายรูปพจนานุกรม (Dict. Form)</p>
                 </div>
               ) : quiz.isVocab ? (
                 <div className="text-center px-6">
@@ -316,7 +401,6 @@ const App: React.FC = () => {
               {quiz.options.map((option) => {
                 const isWrong = quiz.wrongAttempts.includes(option);
                 const isCorrect = showFeedback && option === quiz.correctAnswer;
-                
                 return (
                   <button
                     key={option}
