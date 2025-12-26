@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { QuizMode, AppView, Character, Vocabulary, QuizState, UserStats } from './types';
-import { HIRAGANA, HIRAGANA_DAKUTEN, KATAKANA, KATAKANA_DAKUTEN } from './constants';
-import { VOCAB_N5 } from './vocabN5';
+import { QuizMode, AppView, Character, Vocabulary, QuizState, UserStats } from './types.ts';
+import { HIRAGANA, HIRAGANA_DAKUTEN, KATAKANA, KATAKANA_DAKUTEN } from './constants.ts';
+import { VOCAB_N5 } from './vocabN5.ts';
 
 const App: React.FC = () => {
   const [view, setView] = useState<AppView>(AppView.MENU);
