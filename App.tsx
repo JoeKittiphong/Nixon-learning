@@ -37,6 +37,12 @@ const App: React.FC = () => {
     );
   };
 
+  const getBadgeColor = (type: string) => {
+    if (type.includes('i-Adjective')) return 'bg-orange-100 text-orange-700';
+    if (type.includes('na-Adjective')) return 'bg-blue-100 text-blue-700';
+    return 'bg-emerald-100 text-emerald-700';
+  };
+
   const formatOption = (item: any, currentMode: QuizMode) => {
     if (currentMode === QuizMode.HIRAGANA || currentMode === QuizMode.KATAKANA || currentMode === QuizMode.MIXED) {
       return `${item.thai}(${item.romaji})`;
@@ -70,7 +76,6 @@ const App: React.FC = () => {
     const correct = pool[Math.floor(Math.random() * pool.length)];
     const correctDisplay = formatOption(correct, activeMode);
     
-    // For conjugation, use a unique identifier (the ruby text)
     const others = pool.filter(c => formatOption(c, activeMode) !== correctDisplay);
     const shuffledOthers = [...others].sort(() => 0.5 - Math.random());
     const distractorOptions: string[] = [];
@@ -161,7 +166,7 @@ const App: React.FC = () => {
 
           <div className="space-y-3 pt-4">
             <button onClick={() => handleStartQuiz(QuizMode.VERB_CONJUGATION)} className="w-full bg-emerald-500 text-white rounded-[24px] py-5 text-sm font-bold shadow-lg shadow-emerald-100 flex items-center justify-center gap-3 active:scale-95 transition-transform">
-              <i className="fa-solid fa-sync"></i> ผันคำกิริยา (คันจิ + ฟุริกานะ)
+              <i className="fa-solid fa-sync"></i> ผันกริยา & คุณศัพท์ (N5)
             </button>
             <button onClick={() => handleStartQuiz(QuizMode.READING_PRACTICE)} className="w-full flat-btn-primary py-4 text-sm font-bold shadow-md shadow-indigo-100 flex items-center justify-center gap-3">
               <i className="fa-solid fa-microphone"></i> ฝึกอ่านออกเสียง
@@ -232,10 +237,10 @@ const App: React.FC = () => {
               {quiz.isConjugation ? (
                 <div className="text-center">
                   <div className="flex flex-wrap justify-center gap-2 mb-6">
-                    <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-[9px] font-extrabold rounded-full uppercase tracking-wider">
+                    <span className={`inline-block px-3 py-1 text-[9px] font-extrabold rounded-full uppercase tracking-wider ${getBadgeColor((quiz.currentCharacter as VerbConjugation).type)}`}>
                       {(quiz.currentCharacter as VerbConjugation).type}
                     </span>
-                    <span className="inline-block px-3 py-1 bg-slate-100 text-slate-500 text-[9px] font-extrabold rounded-full uppercase tracking-wider">
+                    <span className="inline-block px-3 py-1 bg-slate-800 text-white text-[9px] font-extrabold rounded-full uppercase tracking-wider">
                       {(quiz.currentCharacter as VerbConjugation).tenseLabel}
                     </span>
                   </div>
@@ -245,7 +250,7 @@ const App: React.FC = () => {
                   <div className="text-slate-400 text-sm font-medium mb-4">
                     {(quiz.currentCharacter as VerbConjugation).thaiReading}
                   </div>
-                  <div className="py-2 px-6 bg-slate-100 rounded-2xl text-slate-600 text-base font-bold inline-block">
+                  <div className="py-2.5 px-6 bg-slate-100 rounded-2xl text-slate-700 text-lg font-bold inline-block">
                     {(quiz.currentCharacter as VerbConjugation).meaning}
                   </div>
                   <p className="mt-8 text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">ทายรูปพจนานุกรม (Dict. Form)</p>
@@ -276,7 +281,6 @@ const App: React.FC = () => {
                 const isWrong = quiz.wrongAttempts.includes(option);
                 const isCorrect = showFeedback && option === quiz.correctAnswer;
                 
-                // For conjugation, we render ruby
                 if (quiz.isConjugation) {
                   return (
                     <button
@@ -310,10 +314,10 @@ const App: React.FC = () => {
         )}
       </main>
 
-      <footer className="mt-10 mb-4">
-        <div className="flex justify-between text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider px-1">
-          <span>PROGRESS</span>
-          <span>{stats.totalAttempts > 0 ? Math.round((stats.correctCount / stats.totalAttempts) * 100) : 0}% ACCURACY</span>
+      <footer className="mt-10 mb-4 px-2">
+        <div className="flex justify-between text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider">
+          <span>ความแม่นยำ</span>
+          <span>{stats.totalAttempts > 0 ? Math.round((stats.correctCount / stats.totalAttempts) * 100) : 0}%</span>
         </div>
         <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
           <div 
