@@ -16,11 +16,11 @@ export interface Vocabulary {
 }
 
 export interface VerbConjugation {
-  conjugated: string;
-  dictionary: string;
-  kanji?: string;
-  type: string;
-  meaning: string;
+  conjugatedRuby: string;   // e.g., "行[い]きます"
+  dictionaryRuby: string;   // e.g., "行[い]く"
+  type: string;             // e.g., "Masu-form"
+  tenseLabel: string;       // e.g., "ปัจจุบัน บอกเล่า"
+  meaning: string;          // e.g., "จะไป"
   thaiReading: string;
 }
 
@@ -30,7 +30,7 @@ export enum QuizMode {
   MIXED = 'mixed',
   VOCAB = 'vocab',
   READING_PRACTICE = 'reading',
-  VERB_CONJUGATION = 'conjugation' // New mode for verb conjugation
+  VERB_CONJUGATION = 'conjugation'
 }
 
 export enum AppView {

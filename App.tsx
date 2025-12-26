@@ -15,13 +15,35 @@ const App: React.FC = () => {
   
   const [studyTab, setStudyTab] = useState<'hiragana' | 'katakana'>('hiragana');
 
+  // Function to render Ruby text from "Kanji[Furigana]Kana" format
+  const renderRuby = (text: string, className: string = "") => {
+    const parts = text.split(/([^\u3040-\u309F\u30A0-\u30FF]+\[[^\]]+\])/g);
+    
+    return (
+      <span className={className}>
+        {parts.map((part, index) => {
+          const match = part.match(/([^\[]+)\[([^\]]+)\]/);
+          if (match) {
+            return (
+              <ruby key={index}>
+                {match[1]}
+                <rt className="text-[0.4em] mb-[-0.2em] font-medium opacity-70">{match[2]}</rt>
+              </ruby>
+            );
+          }
+          return <span key={index}>{part}</span>;
+        })}
+      </span>
+    );
+  };
+
   const formatOption = (item: any, currentMode: QuizMode) => {
     if (currentMode === QuizMode.HIRAGANA || currentMode === QuizMode.KATAKANA || currentMode === QuizMode.MIXED) {
       return `${item.thai}(${item.romaji})`;
     }
     if (currentMode === QuizMode.VOCAB) return item.meaning;
     if (currentMode === QuizMode.READING_PRACTICE) return item.thaiReading;
-    if (currentMode === QuizMode.VERB_CONJUGATION) return item.dictionary;
+    if (currentMode === QuizMode.VERB_CONJUGATION) return (item as VerbConjugation).dictionaryRuby;
     return '';
   };
 
@@ -48,7 +70,7 @@ const App: React.FC = () => {
     const correct = pool[Math.floor(Math.random() * pool.length)];
     const correctDisplay = formatOption(correct, activeMode);
     
-    // For conjugation, ensure distractors have different dictionary forms
+    // For conjugation, use a unique identifier (the ruby text)
     const others = pool.filter(c => formatOption(c, activeMode) !== correctDisplay);
     const shuffledOthers = [...others].sort(() => 0.5 - Math.random());
     const distractorOptions: string[] = [];
@@ -61,7 +83,6 @@ const App: React.FC = () => {
       if (distractorOptions.length >= 3) break;
     }
     
-    // Safety check if not enough distractors
     while (distractorOptions.length < 3) {
       distractorOptions.push("???");
     }
@@ -96,7 +117,7 @@ const App: React.FC = () => {
     if (optionDisplay === quiz.correctAnswer) {
       setStats(prev => ({ correctCount: prev.correctCount + 1, totalAttempts: prev.totalAttempts + 1, streak: prev.streak + 1 }));
       setShowFeedback(true);
-      setTimeout(() => generateNewQuestion(), 800);
+      setTimeout(() => generateNewQuestion(), 1000);
     } else {
       setStats(prev => ({ ...prev, totalAttempts: prev.totalAttempts + 1, streak: 0 }));
       setQuiz(prev => prev ? { ...prev, wrongAttempts: [...prev.wrongAttempts, optionDisplay] } : null);
@@ -140,7 +161,7 @@ const App: React.FC = () => {
 
           <div className="space-y-3 pt-4">
             <button onClick={() => handleStartQuiz(QuizMode.VERB_CONJUGATION)} className="w-full bg-emerald-500 text-white rounded-[24px] py-5 text-sm font-bold shadow-lg shadow-emerald-100 flex items-center justify-center gap-3 active:scale-95 transition-transform">
-              <i className="fa-solid fa-sync"></i> ผันคำกิริยา (Conjugation)
+              <i className="fa-solid fa-sync"></i> ผันคำกิริยา (คันจิ + ฟุริกานะ)
             </button>
             <button onClick={() => handleStartQuiz(QuizMode.READING_PRACTICE)} className="w-full flat-btn-primary py-4 text-sm font-bold shadow-md shadow-indigo-100 flex items-center justify-center gap-3">
               <i className="fa-solid fa-microphone"></i> ฝึกอ่านออกเสียง
@@ -210,19 +231,24 @@ const App: React.FC = () => {
             <div className={`w-full max-w-sm flat-card py-10 px-6 flex flex-col items-center justify-center transition-all duration-300 border-2 ${showFeedback ? 'border-indigo-500 bg-indigo-50 scale-95' : 'border-transparent'}`}>
               {quiz.isConjugation ? (
                 <div className="text-center">
-                  <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-extrabold rounded-full mb-4 uppercase tracking-widest">
-                    {(quiz.currentCharacter as VerbConjugation).type}
-                  </span>
-                  <div className="text-5xl font-black text-slate-800 mb-2">
-                    {(quiz.currentCharacter as VerbConjugation).conjugated}
+                  <div className="flex flex-wrap justify-center gap-2 mb-6">
+                    <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-[9px] font-extrabold rounded-full uppercase tracking-wider">
+                      {(quiz.currentCharacter as VerbConjugation).type}
+                    </span>
+                    <span className="inline-block px-3 py-1 bg-slate-100 text-slate-500 text-[9px] font-extrabold rounded-full uppercase tracking-wider">
+                      {(quiz.currentCharacter as VerbConjugation).tenseLabel}
+                    </span>
+                  </div>
+                  <div className="text-6xl font-black text-slate-800 mb-2">
+                    {renderRuby((quiz.currentCharacter as VerbConjugation).conjugatedRuby)}
                   </div>
                   <div className="text-slate-400 text-sm font-medium mb-4">
                     {(quiz.currentCharacter as VerbConjugation).thaiReading}
                   </div>
-                  <div className="py-2 px-6 bg-slate-100 rounded-2xl text-slate-600 text-sm font-bold inline-block">
+                  <div className="py-2 px-6 bg-slate-100 rounded-2xl text-slate-600 text-base font-bold inline-block">
                     {(quiz.currentCharacter as VerbConjugation).meaning}
                   </div>
-                  <p className="mt-6 text-slate-400 text-xs font-bold uppercase tracking-widest">เลือกรูปพจนานุกรม</p>
+                  <p className="mt-8 text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">ทายรูปพจนานุกรม (Dict. Form)</p>
                 </div>
               ) : quiz.isVocab ? (
                 <div className="text-center px-6">
@@ -249,6 +275,21 @@ const App: React.FC = () => {
               {quiz.options.map((option) => {
                 const isWrong = quiz.wrongAttempts.includes(option);
                 const isCorrect = showFeedback && option === quiz.correctAnswer;
+                
+                // For conjugation, we render ruby
+                if (quiz.isConjugation) {
+                  return (
+                    <button
+                      key={option}
+                      disabled={showFeedback}
+                      onClick={() => handleAnswer(option)}
+                      className={`h-24 flat-btn flex flex-col items-center justify-center p-3 border-2 ${isWrong ? 'wrong-anim' : isCorrect ? 'correct-anim border-green-500 shadow-lg shadow-green-100' : 'border-slate-100'}`}
+                    >
+                      <span className="text-2xl font-bold">{renderRuby(option)}</span>
+                    </button>
+                  );
+                }
+
                 const [thaiPart, englishPartWithBracket] = option.split('(');
                 const englishPart = englishPartWithBracket ? `(${englishPartWithBracket}` : '';
 
