@@ -244,16 +244,13 @@ const App: React.FC = () => {
                       {(quiz.currentCharacter as VerbConjugation).tenseLabel}
                     </span>
                   </div>
-                  <div className="text-6xl font-black text-slate-800 mb-2">
+                  <div className="text-6xl font-black text-slate-800 mb-6">
                     {renderRuby((quiz.currentCharacter as VerbConjugation).conjugatedRuby)}
-                  </div>
-                  <div className="text-slate-400 text-sm font-medium mb-4">
-                    {(quiz.currentCharacter as VerbConjugation).thaiReading}
                   </div>
                   <div className="py-2.5 px-6 bg-slate-100 rounded-2xl text-slate-700 text-lg font-bold inline-block">
                     {(quiz.currentCharacter as VerbConjugation).meaning}
                   </div>
-                  <p className="mt-8 text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">ทายรูปพจนานุกรม (Dict. Form)</p>
+                  <p className="mt-10 text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">ทายรูปพจนานุกรม (Dict. Form)</p>
                 </div>
               ) : quiz.isVocab ? (
                 <div className="text-center px-6">
