@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'zenkana-v2';
+const CACHE_NAME = 'zenkana-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -8,6 +8,8 @@ const ASSETS_TO_CACHE = [
   './types.ts',
   './constants.ts',
   './vocabN5.ts',
+  './verbConjugations.ts',
+  './sentencesN5.ts',
   './manifest.json',
   'https://cdn.tailwindcss.com',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
@@ -38,15 +40,12 @@ self.addEventListener('activate', (event) => {
 });
 
 // Fetch Event - Network First, falling back to cache
-// This strategy ensures users get updates when online but still works offline.
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {
-        // Update cache with the latest version
         const responseClone = networkResponse.clone();
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, responseClone);
@@ -54,7 +53,6 @@ self.addEventListener('fetch', (event) => {
         return networkResponse;
       })
       .catch(() => {
-        // If network fails, serve from cache
         return caches.match(event.request);
       })
   );

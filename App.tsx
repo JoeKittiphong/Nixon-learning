@@ -1,9 +1,10 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { QuizMode, AppView, Character, Vocabulary, VerbConjugation, QuizState, UserStats } from './types.ts';
+import { QuizMode, AppView, Character, Vocabulary, VerbConjugation, SentenceQuestion, QuizState, UserStats } from './types.ts';
 import { HIRAGANA, HIRAGANA_DAKUTEN, KATAKANA, KATAKANA_DAKUTEN } from './constants.ts';
 import { VOCAB_N5 } from './vocabN5.ts';
 import { VERB_CONJUGATIONS } from './verbConjugations.ts';
+import { SENTENCES_N5 } from './sentencesN5.ts';
 
 const App: React.FC = () => {
   const [view, setView] = useState<AppView>(AppView.MENU);
@@ -27,7 +28,7 @@ const App: React.FC = () => {
             return (
               <ruby key={index}>
                 {match[1]}
-                <rt className="text-[0.4em] mb-[-0.2em] font-medium opacity-70">{match[2]}</rt>
+                <rt className="text-[0.45em] mb-[-0.1em] font-medium opacity-80">{match[2]}</rt>
               </ruby>
             );
           }
@@ -50,10 +51,12 @@ const App: React.FC = () => {
     if (currentMode === QuizMode.VOCAB) return item.meaning;
     if (currentMode === QuizMode.READING_PRACTICE) return item.thaiReading;
     if (currentMode === QuizMode.VERB_CONJUGATION) return (item as VerbConjugation).dictionaryRuby;
+    if (currentMode === QuizMode.SENTENCE_FILL) return (item as string); 
     return '';
   };
 
   const getFilteredPool = useCallback((targetMode: QuizMode) => {
+    if (targetMode === QuizMode.SENTENCE_FILL) return SENTENCES_N5;
     if (targetMode === QuizMode.VERB_CONJUGATION) return VERB_CONJUGATIONS;
     if (targetMode === QuizMode.VOCAB || targetMode === QuizMode.READING_PRACTICE) return VOCAB_N5;
     let pool: Character[] = [];
@@ -73,6 +76,20 @@ const App: React.FC = () => {
     const pool = getFilteredPool(activeMode);
     if (pool.length === 0) return;
     
+    if (activeMode === QuizMode.SENTENCE_FILL) {
+      const q = pool[Math.floor(Math.random() * pool.length)] as SentenceQuestion;
+      const options = [...q.distractors, q.correctAnswer].sort(() => 0.5 - Math.random());
+      setQuiz({
+        currentCharacter: q,
+        options,
+        correctAnswer: q.correctAnswer,
+        wrongAttempts: [],
+        isSentence: true
+      });
+      setShowFeedback(false);
+      return;
+    }
+
     const correct = pool[Math.floor(Math.random() * pool.length)];
     const correctDisplay = formatOption(correct, activeMode);
     
@@ -165,6 +182,9 @@ const App: React.FC = () => {
           </div>
 
           <div className="space-y-3 pt-4">
+            <button onClick={() => handleStartQuiz(QuizMode.SENTENCE_FILL)} className="w-full bg-indigo-500 text-white rounded-[24px] py-5 text-sm font-bold shadow-lg shadow-indigo-100 flex items-center justify-center gap-3 active:scale-95 transition-transform">
+              <i className="fa-solid fa-pencil"></i> เติมคำในประโยค (N5)
+            </button>
             <button onClick={() => handleStartQuiz(QuizMode.VERB_CONJUGATION)} className="w-full bg-emerald-500 text-white rounded-[24px] py-5 text-sm font-bold shadow-lg shadow-emerald-100 flex items-center justify-center gap-3 active:scale-95 transition-transform">
               <i className="fa-solid fa-sync"></i> ผันกริยา & คุณศัพท์ (N5)
             </button>
@@ -234,7 +254,26 @@ const App: React.FC = () => {
         {quiz && (
           <>
             <div className={`w-full max-w-sm flat-card py-10 px-6 flex flex-col items-center justify-center transition-all duration-300 border-2 ${showFeedback ? 'border-indigo-500 bg-indigo-50 scale-95' : 'border-transparent'}`}>
-              {quiz.isConjugation ? (
+              {quiz.isSentence ? (
+                <div className="text-center w-full">
+                  <div className="text-3xl font-bold text-slate-800 mb-8 leading-relaxed">
+                    {(quiz.currentCharacter as SentenceQuestion).sentenceWithBlank.split('_____').map((part, i, arr) => (
+                      <React.Fragment key={i}>
+                        {renderRuby(part)}
+                        {i < arr.length - 1 && (
+                          <span className={`inline-block border-b-4 mx-2 px-4 min-w-[120px] pb-1 ${showFeedback ? 'text-indigo-600 border-indigo-400' : 'text-slate-200 border-slate-300'}`}>
+                            {showFeedback ? renderRuby(quiz.correctAnswer) : ''}
+                          </span>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                  <div className="py-3 px-6 bg-indigo-50 text-indigo-700 rounded-2xl text-lg font-bold inline-block border border-indigo-100 shadow-sm">
+                    {(quiz.currentCharacter as SentenceQuestion).thaiTranslation}
+                  </div>
+                  <p className="mt-8 text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">เลือกคำที่ถูกต้องเพื่อเติมในช่องว่าง</p>
+                </div>
+              ) : quiz.isConjugation ? (
                 <div className="text-center">
                   <div className="flex flex-wrap justify-center gap-2 mb-6">
                     <span className={`inline-block px-3 py-1 text-[9px] font-extrabold rounded-full uppercase tracking-wider ${getBadgeColor((quiz.currentCharacter as VerbConjugation).type)}`}>
@@ -278,31 +317,27 @@ const App: React.FC = () => {
                 const isWrong = quiz.wrongAttempts.includes(option);
                 const isCorrect = showFeedback && option === quiz.correctAnswer;
                 
-                if (quiz.isConjugation) {
-                  return (
-                    <button
-                      key={option}
-                      disabled={showFeedback}
-                      onClick={() => handleAnswer(option)}
-                      className={`h-24 flat-btn flex flex-col items-center justify-center p-3 border-2 ${isWrong ? 'wrong-anim' : isCorrect ? 'correct-anim border-green-500 shadow-lg shadow-green-100' : 'border-slate-100'}`}
-                    >
-                      <span className="text-2xl font-bold">{renderRuby(option)}</span>
-                    </button>
-                  );
-                }
-
-                const [thaiPart, englishPartWithBracket] = option.split('(');
-                const englishPart = englishPartWithBracket ? `(${englishPartWithBracket}` : '';
-
                 return (
                   <button
                     key={option}
                     disabled={showFeedback}
                     onClick={() => handleAnswer(option)}
-                    className={`h-24 flat-btn flex flex-col items-center justify-center p-3 border-2 ${isWrong ? 'wrong-anim' : isCorrect ? 'correct-anim border-green-500 shadow-lg shadow-green-100' : 'border-slate-100'}`}
+                    className={`h-28 flat-btn flex flex-col items-center justify-center p-3 border-2 transition-all ${isWrong ? 'wrong-anim' : isCorrect ? 'correct-anim border-green-500 shadow-lg shadow-green-100' : 'border-slate-100'}`}
                   >
-                    <span className="text-lg font-bold text-center leading-tight">{thaiPart}</span>
-                    {englishPart && <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase opacity-60">{englishPart}</span>}
+                    {quiz.isSentence ? (
+                      <span className="text-xl font-bold">{renderRuby(option)}</span>
+                    ) : quiz.isConjugation ? (
+                      <span className="text-2xl font-bold">{renderRuby(option)}</span>
+                    ) : (
+                      <>
+                        <span className="text-lg font-bold text-center leading-tight">{option.split('(')[0]}</span>
+                        {option.includes('(') && (
+                          <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase opacity-60">
+                            ({option.split('(')[1]}
+                          </span>
+                        )}
+                      </>
+                    )}
                   </button>
                 );
               })}

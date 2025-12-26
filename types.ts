@@ -24,13 +24,21 @@ export interface VerbConjugation {
   thaiReading: string;
 }
 
+export interface SentenceQuestion {
+  sentenceWithBlank: string; // e.g., "わたしは _____ です。"
+  correctAnswer: string;     // e.g., "がくせい"
+  thaiTranslation: string;   // e.g., "ฉันเป็นนักเรียน"
+  distractors: string[];    // e.g., ["せんせい", "いぬ", "ほん"]
+}
+
 export enum QuizMode {
   HIRAGANA = 'hiragana',
   KATAKANA = 'katakana',
   MIXED = 'mixed',
   VOCAB = 'vocab',
   READING_PRACTICE = 'reading',
-  VERB_CONJUGATION = 'conjugation'
+  VERB_CONJUGATION = 'conjugation',
+  SENTENCE_FILL = 'sentence'
 }
 
 export enum AppView {
@@ -40,12 +48,13 @@ export enum AppView {
 }
 
 export interface QuizState {
-  currentCharacter: Character | Vocabulary | VerbConjugation;
+  currentCharacter: Character | Vocabulary | VerbConjugation | SentenceQuestion;
   options: string[];
   correctAnswer: string;
   wrongAttempts: string[];
   isVocab?: boolean;
   isConjugation?: boolean;
+  isSentence?: boolean;
 }
 
 export interface UserStats {
