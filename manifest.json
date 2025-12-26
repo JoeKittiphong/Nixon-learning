@@ -2,17 +2,30 @@
 {
   "name": "ZenKana - Japanese Learning",
   "short_name": "ZenKana",
-  "description": "Learn Japanese Hiragana and Katakana with Glassmorphism UI",
-  "start_url": "./index.html",
+  "description": "Learn Japanese Hiragana and Katakana with Modern Flat UI",
+  "start_url": ".",
   "display": "standalone",
-  "background_color": "#764ba2",
-  "theme_color": "#667eea",
+  "background_color": "#f8fafc",
+  "theme_color": "#6366f1",
+  "orientation": "portrait",
   "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3132/3132808.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3132/3132808.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3132/3132808.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
