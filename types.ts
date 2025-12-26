@@ -11,16 +11,26 @@ export interface Vocabulary {
   word: string;
   kanji?: string;
   romaji: string;
-  thaiReading: string; // เพิ่มคำอ่านภาษาไทย
-  meaning: string;     // ความหมายภาษาไทย
+  thaiReading: string;
+  meaning: string;
+}
+
+export interface VerbConjugation {
+  conjugated: string;
+  dictionary: string;
+  kanji?: string;
+  type: string;
+  meaning: string;
+  thaiReading: string;
 }
 
 export enum QuizMode {
   HIRAGANA = 'hiragana',
   KATAKANA = 'katakana',
   MIXED = 'mixed',
-  VOCAB = 'vocab',           // ทายความหมาย
-  READING_PRACTICE = 'reading' // ทายคำอ่าน
+  VOCAB = 'vocab',
+  READING_PRACTICE = 'reading',
+  VERB_CONJUGATION = 'conjugation' // New mode for verb conjugation
 }
 
 export enum AppView {
@@ -30,11 +40,12 @@ export enum AppView {
 }
 
 export interface QuizState {
-  currentCharacter: Character | Vocabulary;
+  currentCharacter: Character | Vocabulary | VerbConjugation;
   options: string[];
   correctAnswer: string;
   wrongAttempts: string[];
   isVocab?: boolean;
+  isConjugation?: boolean;
 }
 
 export interface UserStats {

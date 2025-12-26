@@ -1,8 +1,9 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { QuizMode, AppView, Character, Vocabulary, QuizState, UserStats } from './types.ts';
+import { QuizMode, AppView, Character, Vocabulary, VerbConjugation, QuizState, UserStats } from './types.ts';
 import { HIRAGANA, HIRAGANA_DAKUTEN, KATAKANA, KATAKANA_DAKUTEN } from './constants.ts';
 import { VOCAB_N5 } from './vocabN5.ts';
+import { VERB_CONJUGATIONS } from './verbConjugations.ts';
 
 const App: React.FC = () => {
   const [view, setView] = useState<AppView>(AppView.MENU);
@@ -13,7 +14,6 @@ const App: React.FC = () => {
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
   
   const [studyTab, setStudyTab] = useState<'hiragana' | 'katakana'>('hiragana');
-  const [studyShowDakuten, setStudyShowDakuten] = useState<boolean>(true);
 
   const formatOption = (item: any, currentMode: QuizMode) => {
     if (currentMode === QuizMode.HIRAGANA || currentMode === QuizMode.KATAKANA || currentMode === QuizMode.MIXED) {
@@ -21,10 +21,12 @@ const App: React.FC = () => {
     }
     if (currentMode === QuizMode.VOCAB) return item.meaning;
     if (currentMode === QuizMode.READING_PRACTICE) return item.thaiReading;
+    if (currentMode === QuizMode.VERB_CONJUGATION) return item.dictionary;
     return '';
   };
 
   const getFilteredPool = useCallback((targetMode: QuizMode) => {
+    if (targetMode === QuizMode.VERB_CONJUGATION) return VERB_CONJUGATIONS;
     if (targetMode === QuizMode.VOCAB || targetMode === QuizMode.READING_PRACTICE) return VOCAB_N5;
     let pool: Character[] = [];
     if (targetMode === QuizMode.HIRAGANA || targetMode === QuizMode.MIXED) {
@@ -42,23 +44,37 @@ const App: React.FC = () => {
     const activeMode = targetMode || mode;
     const pool = getFilteredPool(activeMode);
     if (pool.length === 0) return;
+    
     const correct = pool[Math.floor(Math.random() * pool.length)];
     const correctDisplay = formatOption(correct, activeMode);
+    
+    // For conjugation, ensure distractors have different dictionary forms
     const others = pool.filter(c => formatOption(c, activeMode) !== correctDisplay);
     const shuffledOthers = [...others].sort(() => 0.5 - Math.random());
     const distractorOptions: string[] = [];
+    
     for (const item of shuffledOthers) {
       const display = formatOption(item, activeMode);
-      if (!distractorOptions.includes(display) && display !== correctDisplay) distractorOptions.push(display);
+      if (!distractorOptions.includes(display) && display !== correctDisplay) {
+        distractorOptions.push(display);
+      }
       if (distractorOptions.length >= 3) break;
     }
+    
+    // Safety check if not enough distractors
+    while (distractorOptions.length < 3) {
+      distractorOptions.push("???");
+    }
+
     const options = [...distractorOptions, correctDisplay].sort(() => 0.5 - Math.random());
+    
     setQuiz({
       currentCharacter: correct as any,
       options,
       correctAnswer: correctDisplay,
       wrongAttempts: [],
-      isVocab: activeMode === QuizMode.VOCAB || activeMode === QuizMode.READING_PRACTICE
+      isVocab: activeMode === QuizMode.VOCAB || activeMode === QuizMode.READING_PRACTICE,
+      isConjugation: activeMode === QuizMode.VERB_CONJUGATION
     });
     setShowFeedback(false);
   }, [getFilteredPool, mode]);
@@ -80,7 +96,7 @@ const App: React.FC = () => {
     if (optionDisplay === quiz.correctAnswer) {
       setStats(prev => ({ correctCount: prev.correctCount + 1, totalAttempts: prev.totalAttempts + 1, streak: prev.streak + 1 }));
       setShowFeedback(true);
-      setTimeout(() => generateNewQuestion(), 600);
+      setTimeout(() => generateNewQuestion(), 800);
     } else {
       setStats(prev => ({ ...prev, totalAttempts: prev.totalAttempts + 1, streak: 0 }));
       setQuiz(prev => prev ? { ...prev, wrongAttempts: [...prev.wrongAttempts, optionDisplay] } : null);
@@ -123,6 +139,9 @@ const App: React.FC = () => {
           </div>
 
           <div className="space-y-3 pt-4">
+            <button onClick={() => handleStartQuiz(QuizMode.VERB_CONJUGATION)} className="w-full bg-emerald-500 text-white rounded-[24px] py-5 text-sm font-bold shadow-lg shadow-emerald-100 flex items-center justify-center gap-3 active:scale-95 transition-transform">
+              <i className="fa-solid fa-sync"></i> ผันคำกิริยา (Conjugation)
+            </button>
             <button onClick={() => handleStartQuiz(QuizMode.READING_PRACTICE)} className="w-full flat-btn-primary py-4 text-sm font-bold shadow-md shadow-indigo-100 flex items-center justify-center gap-3">
               <i className="fa-solid fa-microphone"></i> ฝึกอ่านออกเสียง
             </button>
@@ -140,8 +159,8 @@ const App: React.FC = () => {
 
   if (view === AppView.STUDY) {
     const rawPool = studyTab === 'hiragana' 
-      ? (studyShowDakuten ? [...HIRAGANA, ...HIRAGANA_DAKUTEN] : HIRAGANA)
-      : (studyShowDakuten ? [...KATAKANA, ...KATAKANA_DAKUTEN] : KATAKANA);
+      ? (useDakuten ? [...HIRAGANA, ...HIRAGANA_DAKUTEN] : HIRAGANA)
+      : (useDakuten ? [...KATAKANA, ...KATAKANA_DAKUTEN] : KATAKANA);
 
     return (
       <div className="min-h-screen flex flex-col p-4 view-enter">
@@ -185,11 +204,27 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex-grow flex flex-col items-center justify-center gap-10">
+      <main className="flex-grow flex flex-col items-center justify-center gap-6">
         {quiz && (
           <>
-            <div className={`w-full max-w-xs aspect-square flat-card flex flex-col items-center justify-center transition-all duration-200 ${showFeedback ? 'scale-95 bg-indigo-50' : ''}`}>
-              {quiz.isVocab ? (
+            <div className={`w-full max-w-sm flat-card py-10 px-6 flex flex-col items-center justify-center transition-all duration-300 border-2 ${showFeedback ? 'border-indigo-500 bg-indigo-50 scale-95' : 'border-transparent'}`}>
+              {quiz.isConjugation ? (
+                <div className="text-center">
+                  <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-extrabold rounded-full mb-4 uppercase tracking-widest">
+                    {(quiz.currentCharacter as VerbConjugation).type}
+                  </span>
+                  <div className="text-5xl font-black text-slate-800 mb-2">
+                    {(quiz.currentCharacter as VerbConjugation).conjugated}
+                  </div>
+                  <div className="text-slate-400 text-sm font-medium mb-4">
+                    {(quiz.currentCharacter as VerbConjugation).thaiReading}
+                  </div>
+                  <div className="py-2 px-6 bg-slate-100 rounded-2xl text-slate-600 text-sm font-bold inline-block">
+                    {(quiz.currentCharacter as VerbConjugation).meaning}
+                  </div>
+                  <p className="mt-6 text-slate-400 text-xs font-bold uppercase tracking-widest">เลือกรูปพจนานุกรม</p>
+                </div>
+              ) : quiz.isVocab ? (
                 <div className="text-center px-6">
                   {(quiz.currentCharacter as Vocabulary).kanji && (
                     <span className="block text-indigo-400 font-bold mb-2 tracking-widest text-sm">{(quiz.currentCharacter as Vocabulary).word}</span>
@@ -222,7 +257,7 @@ const App: React.FC = () => {
                     key={option}
                     disabled={showFeedback}
                     onClick={() => handleAnswer(option)}
-                    className={`h-24 flat-btn flex flex-col items-center justify-center p-3 ${isWrong ? 'wrong-anim' : isCorrect ? 'correct-anim' : ''}`}
+                    className={`h-24 flat-btn flex flex-col items-center justify-center p-3 border-2 ${isWrong ? 'wrong-anim' : isCorrect ? 'correct-anim border-green-500 shadow-lg shadow-green-100' : 'border-slate-100'}`}
                   >
                     <span className="text-lg font-bold text-center leading-tight">{thaiPart}</span>
                     {englishPart && <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase opacity-60">{englishPart}</span>}
