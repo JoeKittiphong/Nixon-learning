@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenKana - Seamless Glass-Neumorphic</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#a5b4fc">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background: linear-gradient(135deg, #e0e7ff 0%, #fae8ff 50%, #f1f5f9 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #334155;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
+        }
+
+        /* Remove default focus outlines for a cleaner look */
+        button:focus, button:active {
+            outline: none !important;
+        }
+
+        /* Seamless Glass-Neumorphic Base Card */
+        .gnm-card {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: none; /* Removed border */
+            box-shadow: 
+                15px 15px 30px rgba(163, 177, 198, 0.35), 
+                -15px -15px 30px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Seamless Glass-Neumorphic Button */
+        .gnm-btn {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: none; /* Removed border */
+            box-shadow: 
+                6px 6px 12px rgba(163, 177, 198, 0.3), 
+                -6px -6px 12px rgba(255, 255, 255, 0.8);
+            transition: all 0.25s ease-out;
+            cursor: pointer;
+        }
+
+        .gnm-btn:hover {
+            background: rgba(255, 255, 255, 0.55);
+            transform: translateY(-1px);
+            box-shadow: 
+                10px 10px 20px rgba(163, 177, 198, 0.35), 
+                -10px -10px 20px rgba(255, 255, 255, 0.9);
+        }
+
+        /* The 'Pressed' Down Effect (Neumorphic Inset) */
+        .gnm-btn:active, .gnm-pressed {
+            background: rgba(255, 255, 255, 0.15) !important;
+            transform: scale(0.97);
+            box-shadow: 
+                inset 8px 8px 16px rgba(163, 177, 198, 0.5), 
+                inset -8px -8px 16px rgba(255, 255, 255, 0.6) !important;
+        }
+
+        /* Inset Surfaces */
+        .gnm-inset {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(6px);
+            border: none;
+            box-shadow: 
+                inset 6px 6px 12px rgba(163, 177, 198, 0.3), 
+                inset -6px -6px 12px rgba(255, 255, 255, 0.6);
+        }
+
+        .gnm-text-shadow {
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.03);
+        }
+
+        /* Correct/Wrong State Enhancements */
+        .bg-correct {
+            background: rgba(34, 197, 94, 0.2) !important; /* Greenish glass */
+        }
+        .bg-wrong {
+            background: rgba(239, 68, 68, 0.2) !important; /* Reddish glass */
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
