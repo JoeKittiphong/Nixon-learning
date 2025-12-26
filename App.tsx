@@ -89,54 +89,51 @@ const App: React.FC = () => {
 
   if (view === AppView.MENU) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6">
-        <div className="w-full max-w-md gnm-card rounded-[3.5rem] p-10 relative overflow-hidden">
-          <div className="absolute top-[-10%] left-[-10%] w-32 h-32 bg-indigo-300/20 blur-3xl rounded-full"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-32 h-32 bg-purple-300/20 blur-3xl rounded-full"></div>
-          
-          <div className="flex flex-col items-center mb-12 relative z-10">
-            <div className="w-28 h-28 gnm-btn rounded-full flex items-center justify-center mb-6">
-              <span className="text-6xl font-black text-indigo-500">あ</span>
-            </div>
-            <h1 className="text-4xl font-black text-slate-800 tracking-tight gnm-text-shadow">ZenKana</h1>
-            <p className="text-slate-500 text-center mt-2 font-semibold">Learn Japanese Effortlessly</p>
+      <div className="min-h-screen flex flex-col p-6 view-enter">
+        <header className="flex flex-col items-center mt-10 mb-12">
+          <div className="w-20 h-20 bg-indigo-600 rounded-3xl flex items-center justify-center text-white text-4xl font-bold shadow-lg shadow-indigo-200 mb-4">
+            あ
           </div>
+          <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">ZenKana</h1>
+          <p className="text-slate-500 font-medium">เรียนภาษาญี่ปุ่นแสนง่าย</p>
+        </header>
 
-          <div className="space-y-8 relative z-10">
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-6">
-                <button onClick={() => handleStartQuiz(QuizMode.HIRAGANA)} className="gnm-btn rounded-3xl p-6 flex flex-col items-center group">
-                  <span className="text-3xl font-bold text-slate-800">あ</span>
-                  <span className="text-[10px] font-black text-slate-400 uppercase mt-2 tracking-widest">Hiragana</span>
-                </button>
-                <button onClick={() => handleStartQuiz(QuizMode.KATAKANA)} className="gnm-btn rounded-3xl p-6 flex flex-col items-center group">
-                  <span className="text-3xl font-bold text-slate-800">ア</span>
-                  <span className="text-[10px] font-black text-slate-400 uppercase mt-2 tracking-widest">Katakana</span>
-                </button>
-              </div>
-
-              <div className="flex items-center justify-between px-5 py-4 gnm-inset rounded-2xl">
-                <span className="text-sm font-bold text-slate-600">ตัวช่วย Dakuten (゛)</span>
-                <button onClick={() => setUseDakuten(!useDakuten)} className={`w-14 h-8 rounded-full p-1 transition-all duration-300 ${useDakuten ? 'bg-indigo-300/40' : 'bg-slate-300/20'}`}>
-                  <div className={`w-6 h-6 rounded-full bg-white shadow-md transform transition-all duration-300 ${useDakuten ? 'translate-x-6' : 'translate-x-0'}`}></div>
-                </button>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <button onClick={() => handleStartQuiz(QuizMode.READING_PRACTICE)} className="w-full gnm-btn py-5 rounded-3xl text-indigo-600 font-bold flex items-center justify-center gap-3">
-                <i className="fa-solid fa-microphone-lines opacity-50"></i> ฝึกอ่านออกเสียง
-              </button>
-              <button onClick={() => handleStartQuiz(QuizMode.VOCAB)} className="w-full gnm-btn py-5 rounded-3xl text-slate-700 font-bold flex items-center justify-center gap-3">
-                <i className="fa-solid fa-language opacity-50"></i> ทายคำศัพท์ N5
-              </button>
-            </div>
-
-            <button onClick={() => setView(AppView.STUDY)} className="w-full gnm-inset py-4 rounded-3xl text-slate-500 font-bold flex items-center justify-center gap-3 transition-all hover:text-slate-700">
-              ตารางเรียนรู้ <i className="fa-solid fa-book-open text-[10px]"></i>
+        <main className="max-w-md mx-auto w-full space-y-4 flex-grow">
+          <div className="grid grid-cols-2 gap-4">
+            <button onClick={() => handleStartQuiz(QuizMode.HIRAGANA)} className="flat-card p-6 flex flex-col items-center hover:bg-slate-50 transition-colors">
+              <span className="text-3xl font-bold text-indigo-600">あ</span>
+              <span className="text-xs font-bold text-slate-400 mt-2 uppercase">Hiragana</span>
+            </button>
+            <button onClick={() => handleStartQuiz(QuizMode.KATAKANA)} className="flat-card p-6 flex flex-col items-center hover:bg-slate-50 transition-colors">
+              <span className="text-3xl font-bold text-indigo-600">ア</span>
+              <span className="text-xs font-bold text-slate-400 mt-2 uppercase">Katakana</span>
             </button>
           </div>
-        </div>
+
+          <div className="flat-card px-5 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <i className="fa-solid fa-wand-magic-sparkles text-sm"></i>
+              </div>
+              <span className="text-sm font-bold text-slate-700">โหมดเสียงขุ่น (Dakuten)</span>
+            </div>
+            <button onClick={() => setUseDakuten(!useDakuten)} className={`w-12 h-6 rounded-full relative transition-colors ${useDakuten ? 'bg-indigo-600' : 'bg-slate-200'}`}>
+              <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${useDakuten ? 'left-7' : 'left-1'}`}></div>
+            </button>
+          </div>
+
+          <div className="space-y-3 pt-4">
+            <button onClick={() => handleStartQuiz(QuizMode.READING_PRACTICE)} className="w-full flat-btn-primary py-4 text-sm font-bold shadow-md shadow-indigo-100 flex items-center justify-center gap-3">
+              <i className="fa-solid fa-microphone"></i> ฝึกอ่านออกเสียง
+            </button>
+            <button onClick={() => handleStartQuiz(QuizMode.VOCAB)} className="w-full flat-btn py-4 text-sm font-bold text-slate-700 flex items-center justify-center gap-3">
+              <i className="fa-solid fa-language text-indigo-500"></i> ทายคำศัพท์ N5
+            </button>
+            <button onClick={() => setView(AppView.STUDY)} className="w-full py-4 text-sm font-bold text-slate-400 flex items-center justify-center gap-3 hover:text-slate-600">
+              <i className="fa-solid fa-book-open"></i> ตารางตัวอักษร
+            </button>
+          </div>
+        </main>
       </div>
     );
   }
@@ -147,97 +144,76 @@ const App: React.FC = () => {
       : (studyShowDakuten ? [...KATAKANA, ...KATAKANA_DAKUTEN] : KATAKANA);
 
     return (
-      <div className="min-h-screen flex flex-col p-6 md:p-10">
-        <div className="max-w-5xl w-full mx-auto">
-          <div className="flex items-center justify-between mb-10">
-            <button onClick={handleBackToMenu} className="w-12 h-12 gnm-btn flex items-center justify-center rounded-2xl text-slate-600">
-              <i className="fa-solid fa-arrow-left"></i>
-            </button>
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight">Alphabet Table</h2>
-            <div className="w-12"></div>
-          </div>
+      <div className="min-h-screen flex flex-col p-4 view-enter">
+        <header className="flex items-center gap-4 mb-6 pt-4">
+          <button onClick={handleBackToMenu} className="w-10 h-10 flat-btn flex items-center justify-center text-slate-600">
+            <i className="fa-solid fa-chevron-left"></i>
+          </button>
+          <h2 className="text-xl font-bold text-slate-800">ตารางตัวอักษร</h2>
+        </header>
 
-          <div className="gnm-card rounded-[2.5rem] p-6 mb-10 flex flex-col md:flex-row gap-6 items-center justify-between">
-            <div className="flex gnm-inset p-1.5 rounded-2xl w-full md:w-auto">
-              <button onClick={() => setStudyTab('hiragana')} className={`flex-1 md:w-40 py-3 rounded-xl text-xs font-black transition-all ${studyTab === 'hiragana' ? 'bg-white/80 text-indigo-600 shadow-sm' : 'text-slate-500'}`}>HIRAGANA</button>
-              <button onClick={() => setStudyTab('katakana')} className={`flex-1 md:w-40 py-3 rounded-xl text-xs font-black transition-all ${studyTab === 'katakana' ? 'bg-white/80 text-indigo-600 shadow-sm' : 'text-slate-500'}`}>KATAKANA</button>
+        <div className="flat-card p-2 mb-6 flex bg-slate-100/50">
+          <button onClick={() => setStudyTab('hiragana')} className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${studyTab === 'hiragana' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500'}`}>HIRAGANA</button>
+          <button onClick={() => setStudyTab('katakana')} className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${studyTab === 'katakana' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500'}`}>KATAKANA</button>
+        </div>
+
+        <div className="grid grid-cols-4 gap-2 pb-10">
+          {rawPool.map((item, idx) => (
+            <div key={`${item.char}-${idx}`} className="flat-card p-4 flex flex-col items-center justify-center gap-1">
+              <span className="text-2xl font-bold text-slate-800">{item.char}</span>
+              <span className="text-[10px] font-bold text-indigo-400 uppercase">{item.romaji}</span>
             </div>
-            <label className="flex items-center gap-4 cursor-pointer">
-              <span className="text-sm font-bold text-slate-500">รวมเสียงขุ่น</span>
-              <button onClick={() => setStudyShowDakuten(!studyShowDakuten)} className={`w-14 h-8 rounded-full p-1 transition-all ${studyShowDakuten ? 'bg-indigo-300/40' : 'bg-slate-300/20'}`}>
-                <div className={`w-6 h-6 rounded-full bg-white shadow-md transform transition-all ${studyShowDakuten ? 'translate-x-6' : 'translate-x-0'}`}></div>
-              </button>
-            </label>
-          </div>
-
-          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-5 pb-20">
-            {rawPool.map((item, idx) => (
-              <div key={`${item.char}-${idx}`} className="gnm-btn rounded-3xl p-5 flex flex-col items-center justify-center gap-2 aspect-square">
-                <span className="text-3xl font-bold text-slate-800">{item.char}</span>
-                <span className="text-[10px] font-black text-indigo-400 uppercase opacity-60">{item.romaji}</span>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col p-6 md:p-10">
-      <div className="max-w-4xl w-full mx-auto flex items-center justify-between mb-10">
-        <button onClick={handleBackToMenu} className="w-12 h-12 gnm-btn flex items-center justify-center rounded-2xl text-slate-600">
-          <i className="fa-solid fa-times"></i>
+    <div className="min-h-screen flex flex-col p-5 view-enter bg-white">
+      <header className="flex items-center justify-between mb-8">
+        <button onClick={handleBackToMenu} className="w-10 h-10 flat-btn flex items-center justify-center text-slate-500">
+          <i className="fa-solid fa-xmark"></i>
         </button>
-        <div className="flex gap-4">
-          <div className="gnm-btn px-6 py-2.5 rounded-2xl flex items-center gap-3">
-            <i className="fa-solid fa-fire text-orange-500"></i>
-            <span className="font-black text-slate-700">{stats.streak}</span>
+        <div className="flex gap-2">
+          <div className="bg-orange-50 text-orange-600 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-2">
+            <i className="fa-solid fa-fire"></i> {stats.streak}
           </div>
-          <div className="gnm-btn px-6 py-2.5 rounded-2xl flex items-center gap-3">
-            <i className="fa-solid fa-check text-indigo-500"></i>
-            <span className="font-black text-slate-700">{stats.correctCount}</span>
+          <div className="bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-2">
+            <i className="fa-solid fa-star"></i> {stats.correctCount}
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="max-w-md w-full mx-auto flex-grow flex flex-col items-center justify-center gap-12">
+      <main className="flex-grow flex flex-col items-center justify-center gap-10">
         {quiz && (
           <>
-            <div className={`relative w-full gnm-card rounded-[4rem] p-16 flex flex-col items-center justify-center transition-all duration-300 ${showFeedback ? 'bg-green-500/10 scale-95 shadow-xl' : ''}`}>
+            <div className={`w-full max-w-xs aspect-square flat-card flex flex-col items-center justify-center transition-all duration-200 ${showFeedback ? 'scale-95 bg-indigo-50' : ''}`}>
               {quiz.isVocab ? (
-                <div className="flex flex-col items-center text-center">
-                  {(quiz.currentCharacter as Vocabulary).kanji ? (
-                    <>
-                      <span className="text-xl text-indigo-400 font-bold mb-3 tracking-widest uppercase opacity-60">{(quiz.currentCharacter as Vocabulary).word}</span>
-                      <span className={`font-black transition-all duration-300 ${showFeedback ? 'text-green-600' : 'text-slate-800'} text-8xl`}>
-                        {(quiz.currentCharacter as Vocabulary).kanji}
-                      </span>
-                    </>
-                  ) : (
-                    <span className={`font-black transition-all duration-300 ${showFeedback ? 'text-green-600' : 'text-slate-800'} text-7xl`}>
-                      {(quiz.currentCharacter as Vocabulary).word}
-                    </span>
+                <div className="text-center px-6">
+                  {(quiz.currentCharacter as Vocabulary).kanji && (
+                    <span className="block text-indigo-400 font-bold mb-2 tracking-widest text-sm">{(quiz.currentCharacter as Vocabulary).word}</span>
                   )}
+                  <span className={`font-bold leading-none ${showFeedback ? 'text-indigo-600' : 'text-slate-800'} ${(quiz.currentCharacter as any).kanji || (quiz.currentCharacter as any).word.length > 4 ? 'text-4xl' : 'text-6xl'}`}>
+                    {(quiz.currentCharacter as any).kanji || (quiz.currentCharacter as any).word}
+                  </span>
                   {mode === QuizMode.READING_PRACTICE && (
-                    <div className="mt-8 gnm-inset px-8 py-3 rounded-2xl">
-                      <span className="text-slate-500 font-bold text-lg italic">
-                        {(quiz.currentCharacter as Vocabulary).meaning}
-                      </span>
+                    <div className="mt-6 py-2 px-4 bg-slate-50 rounded-xl text-slate-500 text-sm font-medium">
+                      {(quiz.currentCharacter as Vocabulary).meaning}
                     </div>
                   )}
                 </div>
               ) : (
-                <span className={`font-black transition-all duration-300 ${showFeedback ? 'text-green-600' : 'text-slate-800'} text-9xl`}>
+                <span className={`font-bold transition-all ${showFeedback ? 'text-indigo-600' : 'text-slate-800'} text-8xl`}>
                   {(quiz.currentCharacter as Character).char}
                 </span>
               )}
             </div>
 
-            <div className="w-full grid grid-cols-2 gap-6">
+            <div className="w-full max-w-sm grid grid-cols-2 gap-3">
               {quiz.options.map((option) => {
                 const isWrong = quiz.wrongAttempts.includes(option);
-                const isCorrectFeedback = showFeedback && option === quiz.correctAnswer;
+                const isCorrect = showFeedback && option === quiz.correctAnswer;
                 const [thaiPart, englishPartWithBracket] = option.split('(');
                 const englishPart = englishPartWithBracket ? `(${englishPartWithBracket}` : '';
 
@@ -246,30 +222,30 @@ const App: React.FC = () => {
                     key={option}
                     disabled={showFeedback}
                     onClick={() => handleAnswer(option)}
-                    className={`h-36 rounded-[2.5rem] font-bold transition-all gnm-btn flex flex-col items-center justify-center p-6 ${isWrong ? 'gnm-pressed bg-wrong text-red-600' : isCorrectFeedback ? 'gnm-pressed bg-correct text-green-700' : 'text-slate-700'}`}
+                    className={`h-24 flat-btn flex flex-col items-center justify-center p-3 ${isWrong ? 'wrong-anim' : isCorrect ? 'correct-anim' : ''}`}
                   >
-                    <span className="text-2xl text-center leading-tight font-black">{thaiPart}</span>
-                    {englishPart && <span className="text-[10px] font-black text-slate-400 mt-2 uppercase tracking-tighter opacity-60">{englishPart}</span>}
+                    <span className="text-lg font-bold text-center leading-tight">{thaiPart}</span>
+                    {englishPart && <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase opacity-60">{englishPart}</span>}
                   </button>
                 );
               })}
             </div>
           </>
         )}
-      </div>
+      </main>
 
-      <div className="max-w-md w-full mx-auto mt-12 mb-6">
-        <div className="flex justify-between text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 px-2">
-          <span>LEARNING PROGRESS</span>
+      <footer className="mt-10 mb-4">
+        <div className="flex justify-between text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider px-1">
+          <span>PROGRESS</span>
           <span>{stats.totalAttempts > 0 ? Math.round((stats.correctCount / stats.totalAttempts) * 100) : 0}% ACCURACY</span>
         </div>
-        <div className="h-4 gnm-inset rounded-full p-1 overflow-hidden">
+        <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
           <div 
-            className="h-full bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full transition-all duration-1000" 
+            className="h-full bg-indigo-500 transition-all duration-500" 
             style={{ width: `${stats.totalAttempts > 0 ? (stats.correctCount / stats.totalAttempts) * 100 : 0}%` }}
           ></div>
         </div>
-      </div>
+      </footer>
     </div>
   );
 };
