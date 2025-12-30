@@ -18,6 +18,7 @@ const App: React.FC = () => {
   const [studyTab, setStudyTab] = useState<'hiragana' | 'katakana'>('hiragana');
 
   const renderRuby = (text: string, className: string = "") => {
+    if (!text) return null;
     const parts = text.split(/([^\u3040-\u309F\u30A0-\u30FF]+\[[^\]]+\])/g);
     return (
       <span className={className}>
@@ -38,9 +39,17 @@ const App: React.FC = () => {
   };
 
   const getBadgeColor = (type: string) => {
-    if (type.includes('i-Adjective')) return 'bg-orange-100 text-orange-700';
-    if (type.includes('na-Adjective')) return 'bg-blue-100 text-blue-700';
-    return 'bg-emerald-100 text-emerald-700';
+    const t = type.toLowerCase();
+    if (t.includes('i-adjective')) return 'bg-orange-100 text-orange-700';
+    if (t.includes('na-adjective')) return 'bg-blue-100 text-blue-700';
+    if (t.includes('masu')) return 'bg-indigo-100 text-indigo-700';
+    if (t.includes('nai')) return 'bg-rose-100 text-rose-700';
+    if (t.includes('te')) return 'bg-purple-100 text-purple-700';
+    if (t.includes('ta')) return 'bg-emerald-100 text-emerald-700';
+    if (t.includes('potential')) return 'bg-cyan-100 text-cyan-700';
+    if (t.includes('volitional')) return 'bg-amber-100 text-amber-700';
+    if (t.includes('ba form')) return 'bg-sky-100 text-sky-700';
+    return 'bg-slate-100 text-slate-700';
   };
 
   const formatOption = (item: any, currentMode: QuizMode) => {
@@ -50,13 +59,14 @@ const App: React.FC = () => {
     if (currentMode === QuizMode.VOCAB) return item.meaning;
     if (currentMode === QuizMode.READING_PRACTICE) return item.thaiReading;
     if (currentMode === QuizMode.VERB_CONJUGATION) return (item as VerbConjugation).dictionaryRuby;
+    if (currentMode === QuizMode.ADVANCED_CONJUGATION) return (item as VerbConjugation).conjugatedRuby;
     if (currentMode === QuizMode.SENTENCE_FILL) return (item as string); 
     return '';
   };
 
   const getFilteredPool = useCallback((targetMode: QuizMode) => {
     if (targetMode === QuizMode.SENTENCE_FILL) return SENTENCES_N5;
-    if (targetMode === QuizMode.VERB_CONJUGATION) return VERB_CONJUGATIONS;
+    if (targetMode === QuizMode.VERB_CONJUGATION || targetMode === QuizMode.ADVANCED_CONJUGATION) return VERB_CONJUGATIONS;
     if (targetMode === QuizMode.VOCAB || targetMode === QuizMode.READING_PRACTICE) return VOCAB_N5;
     let pool: Character[] = [];
     if (targetMode === QuizMode.HIRAGANA || targetMode === QuizMode.MIXED) {
@@ -77,13 +87,58 @@ const App: React.FC = () => {
     
     if (activeMode === QuizMode.SENTENCE_FILL) {
       const q = pool[Math.floor(Math.random() * pool.length)] as SentenceQuestion;
-      const options = [...q.distractors, q.correctAnswer].sort(() => 0.5 - Math.random());
+      const options = [...q.distractors, q.correctAnswer].slice(0, 4).sort(() => 0.5 - Math.random());
       setQuiz({
         currentCharacter: q,
         options,
         correctAnswer: q.correctAnswer,
         wrongAttempts: [],
         isSentence: true
+      });
+      setShowFeedback(false);
+      return;
+    }
+
+    if (activeMode === QuizMode.ADVANCED_CONJUGATION) {
+      const targetEntry = pool[Math.floor(Math.random() * pool.length)] as VerbConjugation;
+      const correctAnswer = targetEntry.conjugatedRuby;
+      
+      // STRICT: Only other conjugations of the SAME word
+      const sameWordPool = pool.filter(v => 
+        (v as VerbConjugation).dictionaryRuby === targetEntry.dictionaryRuby && 
+        (v as VerbConjugation).conjugatedRuby !== correctAnswer
+      );
+      
+      let distractors: string[] = [];
+      const shuffledSameWord = [...sameWordPool].sort(() => 0.5 - Math.random());
+      shuffledSameWord.forEach(v => {
+        const val = (v as VerbConjugation).conjugatedRuby;
+        if (distractors.length < 3 && !distractors.includes(val)) {
+          distractors.push(val);
+        }
+      });
+      
+      // Fallback if the verb doesn't have enough forms in DB
+      if (distractors.length < 3) {
+        const others = pool.filter(v => (v as VerbConjugation).dictionaryRuby !== targetEntry.dictionaryRuby);
+        const shuffledOthers = [...others].sort(() => 0.5 - Math.random());
+        shuffledOthers.forEach(v => {
+          const val = (v as VerbConjugation).conjugatedRuby;
+          if (distractors.length < 3 && !distractors.includes(val) && val !== correctAnswer) {
+            distractors.push(val);
+          }
+        });
+      }
+
+      // Ensure EXACTLY 4 options
+      const finalOptions = [...distractors.slice(0, 3), correctAnswer].sort(() => 0.5 - Math.random());
+
+      setQuiz({
+        currentCharacter: targetEntry,
+        options: finalOptions,
+        correctAnswer,
+        wrongAttempts: [],
+        isAdvancedConjugation: true
       });
       setShowFeedback(false);
       return;
@@ -149,7 +204,6 @@ const App: React.FC = () => {
         </header>
 
         <main className="max-w-md mx-auto w-full space-y-8 flex-grow pb-10">
-          {/* Step 1: Alphabet */}
           <section className="space-y-3">
             <div className="flex items-center gap-2 mb-2 px-1">
               <span className="w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xs font-bold">1</span>
@@ -170,7 +224,6 @@ const App: React.FC = () => {
             </button>
           </section>
 
-          {/* Step 2: Vocab */}
           <section className="space-y-3">
             <div className="flex items-center gap-2 mb-2 px-1">
               <span className="w-6 h-6 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-xs font-bold">2</span>
@@ -204,7 +257,6 @@ const App: React.FC = () => {
             </div>
           </section>
 
-          {/* Step 3: Grammar */}
           <section className="space-y-3">
             <div className="flex items-center gap-2 mb-2 px-1">
               <span className="w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-bold">3</span>
@@ -219,8 +271,21 @@ const App: React.FC = () => {
                   <i className="fa-solid fa-sync"></i>
                 </div>
                 <div className="text-left flex-grow">
-                  <h3 className="font-bold text-slate-800 text-lg leading-tight">ผันกริยา & คุณศัพท์</h3>
-                  <p className="text-slate-400 text-xs">โครงสร้างประโยคพื้นฐาน</p>
+                  <h3 className="font-bold text-slate-800 text-lg leading-tight">ทายความหมายการผันคำ</h3>
+                  <p className="text-slate-400 text-xs">เข้าใจความหมายของการผัน</p>
+                </div>
+              </button>
+              <button 
+                onClick={() => handleStartQuiz(QuizMode.ADVANCED_CONJUGATION)}
+                className="bg-white border-2 border-orange-500 rounded-[24px] p-5 flex items-center gap-4 hover:bg-orange-50 transition-all active:scale-[0.98] group shadow-sm relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 bg-orange-500 text-white text-[10px] px-3 py-1 font-bold rounded-bl-xl">HARD</div>
+                <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white text-xl">
+                  <i className="fa-solid fa-bolt"></i>
+                </div>
+                <div className="text-left flex-grow">
+                  <h3 className="font-bold text-slate-800 text-lg leading-tight">เจาะลึกการผันคำ</h3>
+                  <p className="text-slate-400 text-xs">ผันกริยาให้ถูกต้องตามโจทย์</p>
                 </div>
               </button>
               <button 
@@ -246,15 +311,13 @@ const App: React.FC = () => {
           </button>
         </main>
 
-        {/* Modal Selection */}
         {isModalOpen && (
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-6 animate-in fade-in duration-200">
-            <div className="bg-white w-full max-w-sm rounded-[32px] p-8 shadow-2xl scale-in-center animate-in zoom-in-95 duration-200">
+            <div className="bg-white w-full max-sm rounded-[32px] p-8 shadow-2xl scale-in-center animate-in zoom-in-95 duration-200">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-bold text-slate-800">เลือกโหมดฝึก</h3>
                 <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600"><i className="fa-solid fa-xmark text-xl"></i></button>
               </div>
-
               <div className="space-y-4">
                 <div className="grid grid-cols-1 gap-2">
                   <button onClick={() => handleStartQuiz(QuizMode.HIRAGANA)} className="w-full py-4 px-6 rounded-2xl border-2 border-slate-100 hover:border-indigo-500 hover:bg-indigo-50 font-bold text-slate-700 flex justify-between items-center group transition-all">
@@ -270,7 +333,6 @@ const App: React.FC = () => {
                     <i className="fa-solid fa-chevron-right opacity-0 group-hover:opacity-100 text-indigo-500"></i>
                   </button>
                 </div>
-
                 <div className="pt-4 border-t border-slate-100">
                   <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
                     <div className="flex items-center gap-3">
@@ -294,7 +356,6 @@ const App: React.FC = () => {
     const rawPool = studyTab === 'hiragana' 
       ? (useDakuten ? [...HIRAGANA, ...HIRAGANA_DAKUTEN] : HIRAGANA)
       : (useDakuten ? [...KATAKANA, ...KATAKANA_DAKUTEN] : KATAKANA);
-
     return (
       <div className="min-h-screen flex flex-col p-4 view-enter bg-white">
         <header className="flex items-center gap-4 mb-6 pt-4">
@@ -303,12 +364,10 @@ const App: React.FC = () => {
           </button>
           <h2 className="text-xl font-bold text-slate-800">ตารางตัวอักษร</h2>
         </header>
-
         <div className="flat-card p-2 mb-6 flex bg-slate-50 border border-slate-100">
           <button onClick={() => setStudyTab('hiragana')} className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${studyTab === 'hiragana' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}>HIRAGANA</button>
           <button onClick={() => setStudyTab('katakana')} className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${studyTab === 'katakana' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400'}`}>KATAKANA</button>
         </div>
-
         <div className="grid grid-cols-4 gap-2 pb-10">
           {rawPool.map((item, idx) => (
             <div key={`${item.char}-${idx}`} className="bg-white border border-slate-100 p-4 rounded-[20px] flex flex-col items-center justify-center gap-1 shadow-sm">
@@ -357,6 +416,34 @@ const App: React.FC = () => {
                   </div>
                   <div className="py-3 px-6 bg-indigo-50 text-indigo-700 rounded-2xl text-lg font-bold inline-block border border-indigo-100 shadow-sm">
                     {(quiz.currentCharacter as SentenceQuestion).thaiTranslation}
+                  </div>
+                </div>
+              ) : quiz.isAdvancedConjugation ? (
+                <div className="text-center w-full">
+                   <div className="mb-4">
+                    <span className="px-3 py-1 bg-slate-800 text-white text-[10px] font-bold rounded-full uppercase tracking-widest">
+                      จงผันกริยาต่อไปนี้
+                    </span>
+                  </div>
+                  <div className="text-5xl font-black text-slate-800 mb-1">
+                    {renderRuby((quiz.currentCharacter as VerbConjugation).dictionaryRuby)}
+                  </div>
+                  <div className="text-sm font-bold text-slate-400 mb-6">
+                    ({(quiz.currentCharacter as VerbConjugation).baseMeaning})
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-0.5 bg-slate-100"></div>
+                      <i className="fa-solid fa-arrow-down text-indigo-300 text-xl"></i>
+                      <div className="w-10 h-0.5 bg-slate-100"></div>
+                    </div>
+                    <div className={`px-6 py-3 rounded-2xl text-xl font-bold border-2 shadow-sm ${getBadgeColor((quiz.currentCharacter as VerbConjugation).type)} border-current opacity-90`}>
+                      {(quiz.currentCharacter as VerbConjugation).tenseLabel}
+                    </div>
+                    <div className="text-base font-bold text-slate-500 mt-2 flex items-center gap-2 bg-slate-50 px-4 py-1.5 rounded-full">
+                      <i className="fa-solid fa-lightbulb text-yellow-400"></i>
+                      เป้าหมาย: {(quiz.currentCharacter as VerbConjugation).meaning}
+                    </div>
                   </div>
                 </div>
               ) : quiz.isConjugation ? (
@@ -410,7 +497,7 @@ const App: React.FC = () => {
                   >
                     {quiz.isSentence ? (
                       <span className="text-xl font-bold">{renderRuby(option)}</span>
-                    ) : quiz.isConjugation ? (
+                    ) : (quiz.isConjugation || quiz.isAdvancedConjugation) ? (
                       <span className="text-2xl font-bold">{renderRuby(option)}</span>
                     ) : (
                       <>

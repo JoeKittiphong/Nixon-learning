@@ -18,9 +18,10 @@ export interface Vocabulary {
 export interface VerbConjugation {
   conjugatedRuby: string;   // e.g., "行[い]きます"
   dictionaryRuby: string;   // e.g., "行[い]く"
+  baseMeaning: string;      // e.g., "ไป" (รากศัพท์)
   type: string;             // e.g., "Masu-form"
-  tenseLabel: string;       // e.g., "ปัจจุบัน บอกเล่า"
-  meaning: string;          // e.g., "จะไป"
+  tenseLabel: string;       // e.g., "ปัจจุบัน สุภาพ"
+  meaning: string;          // e.g., "จะไป" (ความหมายที่ผันแล้ว)
   thaiReading: string;
 }
 
@@ -28,7 +29,7 @@ export interface SentenceQuestion {
   sentenceWithBlank: string; // e.g., "わたしは _____ です。"
   correctAnswer: string;     // e.g., "がくせい"
   thaiTranslation: string;   // e.g., "ฉันเป็นนักเรียน"
-  distractors: string[];    // e.g., ["せんせい", "いぬ", "ほん"]
+  distractors: string[];    // e.g., ["せんせい", "いนุ", "หง"]
 }
 
 export enum QuizMode {
@@ -38,6 +39,7 @@ export enum QuizMode {
   VOCAB = 'vocab',
   READING_PRACTICE = 'reading',
   VERB_CONJUGATION = 'conjugation',
+  ADVANCED_CONJUGATION = 'adv_conjugation',
   SENTENCE_FILL = 'sentence'
 }
 
@@ -54,6 +56,7 @@ export interface QuizState {
   wrongAttempts: string[];
   isVocab?: boolean;
   isConjugation?: boolean;
+  isAdvancedConjugation?: boolean;
   isSentence?: boolean;
 }
 
